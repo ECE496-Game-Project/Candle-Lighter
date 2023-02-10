@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor.Experimental.GraphView;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,9 +16,19 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 _direction;
 
-    [SerializeField]
-    private float _speed;
+    private bool _isMoving;
 
+    public bool _hasInput;
+
+    public Vector3 _startingPosition, _destination;
+
+    [SerializeField]
+    private float _timeToMove;
+
+    [SerializeField]
+    private int _step = 1;
+
+    private float _timer = 0;
     private void Awake()
     {
         _moveAction = _playerInput.actions["Move"];
@@ -29,7 +41,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _direction = new Vector2(0, 0);
-
+        _isMoving = false;
+        _hasInput = false;   
     }
 
 
@@ -37,23 +50,68 @@ public class PlayerController : MonoBehaviour
     {
         _direction = context.ReadValue<Vector2>();
 
+        _hasInput = true;
+
+        if (_direction.x > 0)
+        {
+            _direction = new Vector2(1, 0);
+        }
+        else if (_direction.x < 0)
+        {
+            _direction = new Vector2(-1, 0);
+        }
+        else if (_direction.y > 0)
+        {
+            _direction = new Vector2(0, 1);
+        }
+        else
+        {
+            _direction = new Vector2(0, -1);
+        }
+
+        if (_isMoving) { return; }
+        SetUpMovement();
+
+    }
+
+    private void SetUpMovement()
+    {
+        _startingPosition = transform.position;
+        _destination = _startingPosition + _step * new Vector3(_direction.x, 0, _direction.y);
+        _timer = 0;
+        _isMoving = true;
     }
 
     private void StopMoving(InputAction.CallbackContext context)
     {
         _direction = new Vector2(0, 0);
+        _hasInput = false;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (_direction == Vector2.zero)
+        if (!_isMoving) { return; }
+
+        _timer += Time.deltaTime;
+        Debug.Log(_timer);
+        transform.position = Vector3.Lerp(_startingPosition, _destination, _timer / _timeToMove);
+        Debug.Log(transform.position);
+        
+        if (_timer >= _timeToMove)
         {
-            return;
+            if (!_hasInput)
+            {
+                _isMoving = false;
+                Debug.Log(1);
+            }
+            else
+            {
+                SetUpMovement();
+                Debug.Log(2);
+            }
+            
         }
-        Vector3 move = new Vector3(_direction.x, 0, _direction.y);
-        move *= _speed * Time.deltaTime;
-        transform.Translate(move);
     }
 }
