@@ -54,12 +54,10 @@ namespace Assets.Scripts.Light {
 
         public const float _velocity = 0.1f; // 1 block appear second
         
-        public readonly List<int> _InstructSet;
         public readonly List<LightSection> _LightSectionList;
 
         public List<InstructionType> _InstructionSet {
-            get { return _InstructionSet; }
-            set { _InstructionSet=value; }
+            get; set;
         }
 
         void Start() {

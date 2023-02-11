@@ -34,7 +34,7 @@ namespace Assets.Scripts.LeosScripts.Instruction
     }
     public class InstructionDynamicSet
     {
-        public readonly List<InstructionType> _instructionSet;
+        public List<InstructionType> _instructionSet;
 
         public InstructionDynamicSet()
         {
@@ -44,6 +44,11 @@ namespace Assets.Scripts.LeosScripts.Instruction
 
         public ErrorCode AddInstruction(InstructionType inst, int idx)
         {
+            if (_instructionSet == null)
+            {
+                _instructionSet = new List<InstructionType>();
+            }
+
             if (idx < 0) { 
                 Debug.LogError("instruction set out of bound");
                 return ErrorCode.OUT_OF_BOUND; 
@@ -68,14 +73,14 @@ namespace Assets.Scripts.LeosScripts.Instruction
 
         public ErrorCode Clear()
         {
-            _instructionSet.Clear();
+            _instructionSet = null;
             return ErrorCode.SUCCESS;
         }
     }   
 
     public class InstructionDynamicLib
     {
-        public readonly List<InstructionType> _instructionLib;
+        public List<InstructionType> _instructionLib;
 
         public InstructionDynamicLib() {
             _instructionLib = new List<InstructionType>();

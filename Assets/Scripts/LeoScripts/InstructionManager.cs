@@ -4,11 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.LeosScripts.Instruction;
 using Assets.Scripts.Light;
+using System.Runtime.Serialization;
+
 public class InstructionManager : MonoBehaviour
 {
     public GameObject[] _instructionImagePrefabs;
 
     public InstructionDynamicLib _instructionDynamicLib;
+
+    [SerializeField]
+    private InstructionLibraryUI _instructionLibraryUI;
 
     public int InstructionLibSize
     {
@@ -16,6 +21,9 @@ public class InstructionManager : MonoBehaviour
     }
 
     public InstructionDynamicSet _instructionDynamicSet;
+
+    [SerializeField]
+    private InstructionSetUI _instructionSetUI;
 
     public int InstructionSetSize
     {
@@ -69,14 +77,18 @@ public class InstructionManager : MonoBehaviour
 
     public void PackInstructionToLight(LightPath curlightpath)
     {
+        // reference copy curlightpath.InstructionSet
+        curlightpath._InstructionSet = _instructionDynamicSet._instructionSet;
 
-        //SetClear
-        // 1. clear all UI binding
-        // 2. reference copy curlightpath.InstructionSet
-        // 3. reference set to null
+        // reference set to null
+        _instructionDynamicSet.Clear();
+        
+        // clear all UI binding
+        
+        _instructionSetUI.ClearInstructions(); 
     }
 }
 interface IInstructionTransf
 {
-    public List<InstructionType> _InstructionSet { get; set; }
+    public List<InstructionType> _InstructionSet { get ; set ; }
 }
