@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.LeosScripts.Instruction;
+using Assets.Scripts.Light;
 public class InstructionManager : MonoBehaviour
 {
     public GameObject[] _instructionImagePrefabs;
@@ -65,4 +66,17 @@ public class InstructionManager : MonoBehaviour
     {
         return new List<InstructionType>();
     }
+
+    public void PackInstructionToLight(LightPath curlightpath)
+    {
+
+        //SetClear
+        // 1. clear all UI binding
+        // 2. reference copy curlightpath.InstructionSet
+        // 3. reference set to null
+    }
+
+    interface IInstructionTransf
+{
+    public List<InstructionType> _InstructionSet { get; set; }
 }
