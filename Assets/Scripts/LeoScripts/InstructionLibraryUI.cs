@@ -39,9 +39,9 @@ public class InstructionLibraryUI : MonoBehaviour
         newChildDraggable.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
     }
 
-    public void AddInstruction(GameObject card)
+    public void AddInstruction(GameObject cardPrefab)
     {
-        Instantiate(card, transform);
+        GameObject card = Instantiate(cardPrefab, transform);
         Draggable draggable = card.GetComponent<Draggable>();
         draggable.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
     }
