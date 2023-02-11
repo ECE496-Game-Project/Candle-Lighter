@@ -1,3 +1,4 @@
+using Assets.Scripts.LeosScripts.Instruction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,20 @@ using UnityEngine.EventSystems;
 
 public class InstructionSetUI : MonoBehaviour
 {
-
+    [SerializeField]
+    private InstructionManager _instructionManager;
     [SerializeField]
     private GameObject _placeHolderPrefab;
 
     private GameObject _placeHolder;
+
+    public int InstructionSetSize
+    {
+        get
+        {
+            return transform.childCount;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +75,7 @@ public class InstructionSetUI : MonoBehaviour
         Draggable draggedObject = child.GetComponent<Draggable>();
         if (_placeHolder == null)
         {
-            draggedObject.OnInstrctionCardStartDragging.RemoveListener(OnChildStartDragging);
+            draggedObject.OnInstructionCardStartDragging.RemoveListener(OnChildStartDragging);
             draggedObject.OnInstructionCardDragging.RemoveListener(OnChildDragging);
             draggedObject.OnInstructionCardEndDragging.RemoveListener(OnChildEndDraggin);
             draggedObject.ParentToReturnTo = null;
@@ -88,10 +98,18 @@ public class InstructionSetUI : MonoBehaviour
 
     void SubscribeToInstruction(Draggable draggedObject)
     {
-        draggedObject.OnInstrctionCardStartDragging.AddListener(OnChildStartDragging);
+        draggedObject.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
         draggedObject.OnInstructionCardDragging.AddListener(OnChildDragging);
         draggedObject.OnInstructionCardEndDragging.AddListener(OnChildEndDraggin);
         draggedObject.OnInstructionCardClicked.AddListener(OnChildClicked);
+    }
+
+    void UnsubscribeToInstruction(Draggable draggedObject)
+    {
+        draggedObject.OnInstructionCardStartDragging.RemoveListener(OnChildStartDragging);
+        draggedObject.OnInstructionCardDragging.RemoveListener(OnChildDragging);
+        draggedObject.OnInstructionCardEndDragging.RemoveListener(OnChildEndDraggin);
+        draggedObject.OnInstructionCardClicked.RemoveListener(OnChildClicked);
     }
 
     public void AddInstruction(Draggable draggedObject)
@@ -101,4 +119,39 @@ public class InstructionSetUI : MonoBehaviour
         _placeHolder = Instantiate(_placeHolderPrefab, transform);
         draggedObject.ParentToReturnTo = transform;
     }
+
+
+    public void ClearInstructions()
+    {
+        if (_placeHolder != null)
+        {
+            Destroy(_placeHolder);
+        }
+
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Draggable child = transform.GetChild(i).GetComponent<Draggable>();
+            if (child == null) {
+                Debug.LogError($"child {i} does not have draggable component");
+                continue;
+            }
+
+            UnsubscribeToInstruction(child);
+            Destroy(child.gameObject);
+        }
+    }
+
+    public List<InstructionType> GetInstructionList()
+    {
+        List<InstructionType> instructions = new List<InstructionType>();
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            CardType child = transform.GetChild(i).GetComponent<CardType>();
+            instructions.Add(child.Type);
+        }
+        return instructions;
+    }
+
+    
 }

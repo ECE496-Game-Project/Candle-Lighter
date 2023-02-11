@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class InstructionLibraryUI : MonoBehaviour
@@ -7,6 +8,12 @@ public class InstructionLibraryUI : MonoBehaviour
 
     [SerializeField]
     private InstructionSetUI _instructionSetUI;
+
+    public int InstructionLibSize
+    {
+        get { return transform.childCount; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,27 +21,34 @@ public class InstructionLibraryUI : MonoBehaviour
         {
             Draggable child = transform.GetChild(i).GetComponent<Draggable>();
             if (child == null) Debug.LogError($"Instruction library {i}th child does not have Draggable Script");
-
-            child.OnInstrctionCardStartDragging.AddListener(OnChildStartDragging);
+            SubscribeToInstruction(child);
         }
+    }
+
+    private void SubscribeToInstruction(Draggable child)
+    {
+        child.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
     }
 
     void OnChildStartDragging(int index, GameObject child)
     {
         Debug.Log("Hello");
         Draggable childDraggable = child.GetComponent<Draggable>();
-        childDraggable.OnInstrctionCardStartDragging.RemoveListener(OnChildStartDragging);
+        childDraggable.OnInstructionCardStartDragging.RemoveListener(OnChildStartDragging);
         _instructionSetUI.AddInstruction(childDraggable);
 
         GameObject newChild = Instantiate(child, transform);
         newChild.transform.SetSiblingIndex(index);
         Draggable newChildDraggable = newChild.GetComponent<Draggable>();
-        newChildDraggable.OnInstrctionCardStartDragging.AddListener(OnChildStartDragging);
+        newChildDraggable.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void AddInstruction(GameObject cardPrefab)
     {
-        
+        GameObject card = Instantiate(cardPrefab, transform);
+        Draggable draggable = card.GetComponent<Draggable>();
+        SubscribeToInstruction(draggable); 
     }
+
 }

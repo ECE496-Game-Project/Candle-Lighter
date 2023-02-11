@@ -5,14 +5,16 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Assets.Scripts.Light;
 
 public class PlayerController : MonoBehaviour
 {
-
+    
     [SerializeField]
     private PlayerInput _playerInput;
 
     private InputAction _moveAction;
+    private InputAction _shootAction;
 
     private Vector2 _direction;
 
@@ -29,11 +31,15 @@ public class PlayerController : MonoBehaviour
     private int _step = 1;
 
     private float _timer = 0;
+
     private void Awake()
     {
         _moveAction = _playerInput.actions["Move"];
         _moveAction.performed += StartMoving;
         _moveAction.canceled += StopMoving;
+
+        _shootAction = _playerInput.actions["Shoot"];
+        _shootAction.performed += pressLight;
     }
 
 
@@ -88,7 +94,17 @@ public class PlayerController : MonoBehaviour
         _hasInput = false;
     }
 
-    // Update is called once per frame
+    private void pressLight(InputAction.CallbackContext context) {
+        LightPath lightPath = Instantiate(
+            (GameObject)Resources.Load("Light/LightPath"),
+            this.transform.position,
+            Quaternion.LookRotation(this.transform.forward, Vector3.up),
+            this.transform
+        ).GetComponent<LightPath>();
+
+        lightPath.InitExternInfo((GameObject)Resources.Load("Light/LightSection_Robot"));
+    }
+
     void Update()
     {
 
