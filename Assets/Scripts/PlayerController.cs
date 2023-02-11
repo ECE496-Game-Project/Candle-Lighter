@@ -95,22 +95,14 @@ public class PlayerController : MonoBehaviour
     }
 
     private void pressLight(InputAction.CallbackContext context) {
-        Transform origin = this.transform.Find("origin");
-        Transform foward = this.transform.Find("foward");
-
-
         LightPath lightPath = Instantiate(
             (GameObject)Resources.Load("Light/LightPath"),
-            foward.position,
-            Quaternion.LookRotation((foward.position - origin.position)),
+            this.transform.position,
+            Quaternion.LookRotation(this.transform.forward, Vector3.up),
             this.transform
         ).GetComponent<LightPath>();
 
-        lightPath.InitWorldSpaceInfo(
-            this.transform.position,
-            (foward.position - origin.position),
-            (GameObject)Resources.Load("Light/LightSection_Robot")
-        );
+        lightPath.InitExternInfo((GameObject)Resources.Load("Light/LightSection_Robot"));
     }
 
     void Update()

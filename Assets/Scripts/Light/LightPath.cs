@@ -48,8 +48,6 @@ namespace Assets.Scripts.Light {
     }
 
     public class LightPath : MonoBehaviour, IInstructionTransf {
-        private Vector3 _position;
-        private Vector3 _direction;
         private GameObject _lightSectionType;
         private int _totalDispersionLevel;
 
@@ -61,13 +59,10 @@ namespace Assets.Scripts.Light {
             get; set;
         }
         
-        public void InitWorldSpaceInfo(Vector3 position, Vector3 direction, GameObject lightSectionType) {
-            _position = position;
-            _direction = direction;
+        public void InitExternInfo(GameObject lightSectionType) {
             _lightSectionType =lightSectionType;
         }
-        
-        void InitDispersionLevel() {
+        private void InitDispersionLevel() {
             if(_instructionSet.Count <= 3) {
                 _totalDispersionLevel = 5;
             }
@@ -75,6 +70,7 @@ namespace Assets.Scripts.Light {
                 _totalDispersionLevel = 3;
             }
         }
+
 
         void Start() {
             _instructionSet = new List<InstructionType>();
@@ -86,12 +82,18 @@ namespace Assets.Scripts.Light {
             InitDispersionLevel();
 
             RaycastHit hit;
-            if (Physics.Raycast(_position, _direction, out hit, Mathf.Infinity, ~(1 << 8))) {
-                Debug.Log(_position + "Did Hit" + _direction);
-                for (int i = 0; i < (int)Mathf.Round(hit.distance); i++) {
+            if (Physics.Raycast(
+                    this.transform.position + 0.5f * Vector3.up, 
+                    this.transform.forward, 
+                    out hit, 
+                    Mathf.Infinity, 
+                    ~(1 << 8) // only collider layer
+                )) 
+            {
+                for (int i = 1; i <= (int)Mathf.Round(hit.distance - 0.5f); i++) {
                     LightPath lightPath = Instantiate(
                         _lightSectionType,
-                        _direction * i,
+                        this.transform.position + this.transform.forward * i,
                         Quaternion.identity,
                         this.transform
                     ).GetComponent<LightPath>();

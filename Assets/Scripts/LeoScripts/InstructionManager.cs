@@ -70,7 +70,7 @@ public class InstructionManager : MonoBehaviour
     public void PackInstructionToLight(LightPath curlightpath)
     {
         // reference copy curlightpath.InstructionSets
-        curlightpath._InstructionSet = _instructionSetUI.GetInstructionList();
+        curlightpath._instructionSet = _instructionSetUI.GetInstructionList();
 
 
         // clear all UI binding
