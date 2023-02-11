@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class InstructionLibraryUI : MonoBehaviour
@@ -7,6 +8,12 @@ public class InstructionLibraryUI : MonoBehaviour
 
     [SerializeField]
     private InstructionSetUI _instructionSetUI;
+
+    public int InstructionLibSize
+    {
+        get { return transform.childCount; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,9 +21,13 @@ public class InstructionLibraryUI : MonoBehaviour
         {
             Draggable child = transform.GetChild(i).GetComponent<Draggable>();
             if (child == null) Debug.LogError($"Instruction library {i}th child does not have Draggable Script");
-
-            child.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
+            SubscribeToInstruction(child);
         }
+    }
+
+    private void SubscribeToInstruction(Draggable child)
+    {
+        child.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
     }
 
     void OnChildStartDragging(int index, GameObject child)
@@ -32,14 +43,12 @@ public class InstructionLibraryUI : MonoBehaviour
         newChildDraggable.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
     }
 
-    public void AddInstruction()
-    {
 
+    public void AddInstruction(GameObject cardPrefab)
+    {
+        GameObject card = Instantiate(cardPrefab, transform);
+        Draggable draggable = card.GetComponent<Draggable>();
+        SubscribeToInstruction(draggable); 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

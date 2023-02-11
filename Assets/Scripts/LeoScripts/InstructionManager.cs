@@ -4,29 +4,43 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.LeosScripts.Instruction;
 using Assets.Scripts.Light;
+using System.Runtime.Serialization;
+
 public class InstructionManager : MonoBehaviour
 {
     public GameObject[] _instructionImagePrefabs;
 
-    public InstructionDynamicLib _instructionDynamicLib;
+    //public InstructionDynamicLib _instructionDynamicLib;
+
+    [SerializeField]
+    private InstructionLibraryUI _instructionLibraryUI;
 
     public int InstructionLibSize
     {
-        get { return _instructionDynamicLib._instructionLib.Count; }
+        get { return _instructionLibraryUI.InstructionLibSize; }
     }
 
-    public InstructionDynamicSet _instructionDynamicSet;
+    //public InstructionDynamicSet _instructionDynamicSet;
+
+    [SerializeField]
+    private InstructionSetUI _instructionSetUI ;
 
     public int InstructionSetSize
     {
-        get { return _instructionDynamicLib._instructionLib.Count; }
+        get { return _instructionSetUI.InstructionSetSize;}
     }
+
+
+    //public int InstructionSetSize
+    //{
+    //    get { return _instructionDynamicLib._instructionLib.Count; }
+    //}
 
     // Start is called before the first frame update
     void Start()
     {
-        _instructionDynamicLib = new InstructionDynamicLib();
-        _instructionDynamicSet = new InstructionDynamicSet();
+        //_instructionDynamicLib = new InstructionDynamicLib();
+        //_instructionDynamicSet = new InstructionDynamicSet();
     }
 
     public void ExecuteInstruction(List<InstructionType> patch, IInstrcutionExecutable target)
@@ -48,35 +62,23 @@ public class InstructionManager : MonoBehaviour
 
     public void AddInstructionToLibFromOutside(InstructionType instruction)
     {
+        GameObject card = _instructionImagePrefabs[(int)instruction];
 
-    }
-
-    public void ClearSetInstructionFromOutside()
-    {
-
-    }
-
-    public void AddInstructionToSetFromUI()
-    {
-
-    }
-
-
-    public List<InstructionType> GetInstructionSetFromOutside()
-    {
-        return new List<InstructionType>();
+        _instructionLibraryUI.AddInstruction(card);
     }
 
     public void PackInstructionToLight(LightPath curlightpath)
     {
+        // reference copy curlightpath.InstructionSets
+        curlightpath._instructionSet = _instructionSetUI.GetInstructionList();
 
-        //SetClear
-        // 1. clear all UI binding
-        // 2. reference copy curlightpath.InstructionSet
-        // 3. reference set to null
+
+        // clear all UI binding
+
+        _instructionSetUI.ClearInstructions();
     }
 }
 interface IInstructionTransf
 {
-    public List<InstructionType> _InstructionSet { get; set; }
+    public List<InstructionType> _instructionSet { get ; set ; }
 }
