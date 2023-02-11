@@ -21,9 +21,13 @@ public class InstructionLibraryUI : MonoBehaviour
         {
             Draggable child = transform.GetChild(i).GetComponent<Draggable>();
             if (child == null) Debug.LogError($"Instruction library {i}th child does not have Draggable Script");
-
-            child.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
+            SubscribeToInstruction(child);
         }
+    }
+
+    private void SubscribeToInstruction(Draggable child)
+    {
+        child.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
     }
 
     void OnChildStartDragging(int index, GameObject child)
@@ -39,20 +43,12 @@ public class InstructionLibraryUI : MonoBehaviour
         newChildDraggable.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
     }
 
+
     public void AddInstruction(GameObject cardPrefab)
     {
         GameObject card = Instantiate(cardPrefab, transform);
         Draggable draggable = card.GetComponent<Draggable>();
-        draggable.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
+        SubscribeToInstruction(draggable); 
     }
 
-    public void GetInstruction()
-    {
-
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

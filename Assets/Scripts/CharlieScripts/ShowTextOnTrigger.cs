@@ -40,6 +40,7 @@ public class ShowTextOnTrigger : MonoBehaviour
     {
         if (!textBox.GetComponent<TextBoxViewer>().isLocked && other.CompareTag("Player")) // TODO: 添加玩家发出的无指令光的判断条件
         {
+            Debug.Log("Enter");
             textBox.GetComponent<TextBoxViewer>().isLocked = true;
             textBox.GetComponent<TextBoxViewer>().OpenTextBox(textLines);
         }
