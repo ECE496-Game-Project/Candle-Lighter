@@ -21,7 +21,6 @@ namespace Assets.Scripts.Light {
             if (!_TimerIsRunning) return false;
 
             if (_CurTime < 0) {
-                Debug.Log("Time has run out!");
                 _CurTime = _TimePeriod;
                 return true;
             }
