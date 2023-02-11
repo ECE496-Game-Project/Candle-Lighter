@@ -1,3 +1,0 @@
-Object Name: Card
-Object Property: Intractable
-Object Description: It seems useful. Press [E]. Pick it up!

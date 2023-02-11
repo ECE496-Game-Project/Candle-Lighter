@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6223566145155889933}
   - component: {fileID: 4819014791137828564}
-  - component: {fileID: 4251473281348546962}
+  - component: {fileID: 7581826992437854878}
   m_Layer: 0
-  m_Name: TextTrigger
+  m_Name: text-light-trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4251473281348546962
+--- !u!114 &7581826992437854878
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,8 +55,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4890036377629101765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32390b685eb2543ac8f06d7b3b1cb27d, type: 3}
+  m_Script: {fileID: 11500000, guid: c09f18f86461b4058a87f914e3709375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerText: 
-  displayText: {fileID: 0}
+  textBox: {fileID: 6546403585163283845, guid: c73577925d6f14fe38dafad0e149dd13, type: 3}
+  textLines: []
+  filename: 
