@@ -5,7 +5,7 @@ using Assets.Scripts.LeosScripts.Instruction;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Landscape {
-    public class BaseLandscape : MonoBehaviour, ILightInteract, IInstrcutionExecutable, IInstructionTransf {
+    public class BaseLandscape : MonoBehaviour, IInstrcutionExecutable, IInstructionTransf {
 
         public enum LandscapeType {
             BLACKBODY,
@@ -13,12 +13,13 @@ namespace Assets.Scripts.Landscape {
             NONE
         }
 
-        public LandscapeType type;
+        public LandscapeType _landscapeType;
 
         public List<InstructionType> _instructionSet {
             get; set;
         }
 
+        // only for BLACKBODY
         public virtual void LightInteract(LightPath curlight) {
             Debug.Log("BaseLandscape: LightInteract Triggered!");
         }

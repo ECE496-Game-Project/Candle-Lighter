@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.LeosScripts.Instruction;
-
+using Assets.Scripts.Landscape;
 namespace Assets.Scripts.Light {
     
     public class Timer {
@@ -35,10 +35,6 @@ namespace Assets.Scripts.Light {
         public GameObject _lightSectionGO;
     }
 
-    interface ILightInteract {
-        void LightInteract(LightPath curlight);
-    }
-
     public class LightPath : MonoBehaviour, IInstructionTransf {
         #region GLOBAL VARIABLES
         private GameObject _lightSectionType;
@@ -51,7 +47,7 @@ namespace Assets.Scripts.Light {
 
         public List<LightSection> _lightSectionList;
 
-        public GameObject _lightHitLandScape;
+        public BaseLandscape _lightHitLandScape;
         private int _lightDirDispLevel;
 
 
@@ -86,7 +82,7 @@ namespace Assets.Scripts.Light {
                 int tmpDistance = (int)Mathf.Round(hit.distance - 0.5f);
                 if (_lightDirDispLevel >= tmpDistance) {
                     _lightDirDispLevel = tmpDistance;
-                    _lightHitLandScape = hit.transform.gameObject;
+                    _lightHitLandScape = hit.transform.gameObject.GetComponent<BaseLandscape>();
                 }
             }
 
@@ -102,6 +98,11 @@ namespace Assets.Scripts.Light {
         }
         #endregion
 
+        void LandscapeHandler() {
+            if (_lightHitLandScape == null) return;
+            _lightHitLandScape.LightInteract(this);
+        }
+
         void Start() {
             _instructionSet = new List<InstructionType>();
             _instructionSet.Add(InstructionType.UP_INSTRUCT);
@@ -111,6 +112,7 @@ namespace Assets.Scripts.Light {
 
             InitDispersionLevel();
             InitLightSectionList();
+            LandscapeHandler();
 
             destoryTimer = new Timer(_destoryTime);
         }
