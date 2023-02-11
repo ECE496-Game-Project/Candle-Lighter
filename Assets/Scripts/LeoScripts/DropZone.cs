@@ -9,6 +9,14 @@ public class DropZone : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         Debug.Log("Drop on" + gameObject.name);
+
+        Draggable draggedObject = eventData.pointerDrag.GetComponent<Draggable>();
+        if (draggedObject == null)
+        {
+            return;   
+        }
+
+        draggedObject.ParentToReturnTo = this.transform;
     }
 
     // Start is called before the first frame update
