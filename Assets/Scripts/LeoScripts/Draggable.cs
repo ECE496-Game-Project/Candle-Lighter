@@ -38,15 +38,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     public UnityEvent<GameObject> OnInstructionCardClicked;
 
-
-    [SerializeField]
-    private InstructionType _instructionCardType;
-
-    public InstructionType InstructionCardType
-    {
-        get { return _instructionCardType; }
-    }
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         

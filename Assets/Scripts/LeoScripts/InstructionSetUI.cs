@@ -13,6 +13,14 @@ public class InstructionSetUI : MonoBehaviour
 
     private GameObject _placeHolder;
 
+    public int InstructionSetSize
+    {
+        get
+        {
+            return transform.childCount;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -120,10 +128,10 @@ public class InstructionSetUI : MonoBehaviour
             Destroy(_placeHolder);
         }
 
-        for (int i = transform.childCount - 1; i >= 0 ; i--)
+        for (int i = transform.childCount - 1; i >= 0; i--)
         {
             Draggable child = transform.GetChild(i).GetComponent<Draggable>();
-            if (child == null) { 
+            if (child == null) {
                 Debug.LogError($"child {i} does not have draggable component");
                 continue;
             }
@@ -132,5 +140,18 @@ public class InstructionSetUI : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
+
+    public List<InstructionType> GetInstructionList()
+    {
+        List<InstructionType> instructions = new List<InstructionType>();
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            CardType child = transform.GetChild(i).GetComponent<CardType>();
+            instructions.Add(child.Type);
+        }
+        return instructions;
+    }
+
     
 }

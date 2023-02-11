@@ -71,6 +71,8 @@ namespace Assets.Scripts.LeosScripts.Instruction
             return ErrorCode.SUCCESS;
         }
 
+       
+
         public ErrorCode Clear()
         {
             _instructionSet = null;
