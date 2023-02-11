@@ -91,7 +91,7 @@ namespace Assets.Scripts.Light {
                 for (int i = 0; i < (int)Mathf.Round(hit.distance); i++) {
                     LightPath lightPath = Instantiate(
                         _lightSectionType,
-                        _position + _direction * i,
+                        _direction * i,
                         Quaternion.identity,
                         this.transform
                     ).GetComponent<LightPath>();
