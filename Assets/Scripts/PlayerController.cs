@@ -5,14 +5,16 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Assets.Scripts.Light;
 
 public class PlayerController : MonoBehaviour
 {
-
+    
     [SerializeField]
     private PlayerInput _playerInput;
 
     private InputAction _moveAction;
+    private InputAction _shootAction;
 
     private Vector2 _direction;
 
@@ -29,11 +31,17 @@ public class PlayerController : MonoBehaviour
     private int _step = 1;
 
     private float _timer = 0;
+
+    public GameObject _lightPath;
+
     private void Awake()
     {
         _moveAction = _playerInput.actions["Move"];
         _moveAction.performed += StartMoving;
         _moveAction.canceled += StopMoving;
+
+        _shootAction = _playerInput.actions["Shoot"];
+        _shootAction.performed += pressLight;
     }
 
 
@@ -88,16 +96,24 @@ public class PlayerController : MonoBehaviour
         _hasInput = false;
     }
 
-    // Update is called once per frame
+    private void pressLight(InputAction.CallbackContext context) {
+        Transform origin = this.transform.Find("origin");
+        Transform foward = this.transform.Find("foward");
+
+        LightPath lightPath = Instantiate(_lightPath, foward.position, Quaternion.identity, this.transform).GetComponent<LightPath>();
+        lightPath._position = origin.position;
+        lightPath._direction = foward.position - origin.position;
+    }
+
     void Update()
     {
 
         if (!_isMoving) { return; }
 
         _timer += Time.deltaTime;
-        Debug.Log(_timer);
+        //Debug.Log(_timer);
         transform.position = Vector3.Lerp(_startingPosition, _destination, _timer / _timeToMove);
-        Debug.Log(transform.position);
+        //Debug.Log(transform.position);
         
         if (_timer >= _timeToMove)
         {
