@@ -19,14 +19,14 @@ public class InstructionManager : MonoBehaviour
 
     public int InstructionSetSize
     {
-        get{ return _instructionDynamicLib._instructionLib.Count; }
+        get { return _instructionDynamicLib._instructionLib.Count; }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        _instructionDynamicLib= new InstructionDynamicLib();
-        _instructionDynamicSet= new InstructionDynamicSet();
+        _instructionDynamicLib = new InstructionDynamicLib();
+        _instructionDynamicSet = new InstructionDynamicSet();
     }
 
     public void ExecuteInstruction(List<InstructionType> patch, IInstrcutionExecutable target)
@@ -37,9 +37,9 @@ public class InstructionManager : MonoBehaviour
 
             if (instruction >= InstructionType.UP_INSTRUCT && instruction <= InstructionType.DOWN_INSTRUCT)
             {
-                target.MovementExecute((Direction) instruction);
+                target.MovementExecute((Direction)instruction);
             }
-            else if(instruction == InstructionType.ACTIVATE_INSTRUCT)
+            else if (instruction == InstructionType.ACTIVATE_INSTRUCT)
             {
                 target.ActivateExecute();
             }
@@ -75,8 +75,8 @@ public class InstructionManager : MonoBehaviour
         // 2. reference copy curlightpath.InstructionSet
         // 3. reference set to null
     }
-
-    interface IInstructionTransf
+}
+interface IInstructionTransf
 {
     public List<InstructionType> _InstructionSet { get; set; }
 }
