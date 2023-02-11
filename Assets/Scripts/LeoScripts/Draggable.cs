@@ -1,3 +1,4 @@
+using Assets.Scripts.LeosScripts.Instruction;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Schema;
@@ -6,6 +7,10 @@ using UnityEngine.Android;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// responsible for each individual instruction card movement
+/// and inovoke the event when input actions is performed
+/// </summary>
 public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
 {
     private RectTransform _rectTransform;
@@ -25,20 +30,29 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     private GameObject _placeHolderPrefab;
 
 
-    public UnityEvent<int, GameObject> OnInstrctionCardStartDragging;
+    public UnityEvent<int, GameObject> OnInstructionCardStartDragging;
 
     public UnityEvent<GameObject> OnInstructionCardDragging;
 
     public UnityEvent<GameObject> OnInstructionCardEndDragging;
 
     public UnityEvent<GameObject> OnInstructionCardClicked;
+
+
+    [SerializeField]
+    private InstructionType _instructionCardType;
+
+    public InstructionType InstructionCardType
+    {
+        get { return _instructionCardType; }
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Begin Drag");
         
-        if (OnInstrctionCardStartDragging != null)
+        if (OnInstructionCardStartDragging != null)
         {
-            OnInstrctionCardStartDragging.Invoke(transform.GetSiblingIndex(), gameObject);
+            OnInstructionCardStartDragging.Invoke(transform.GetSiblingIndex(), gameObject);
         }
 
         transform.SetParent(transform.parent.parent);
@@ -83,11 +97,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         _rectTransform = transform as RectTransform;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void OnPointerClick(PointerEventData eventData)
     {

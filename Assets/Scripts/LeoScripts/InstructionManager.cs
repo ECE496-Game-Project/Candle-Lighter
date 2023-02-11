@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Assets.Scripts.LeosScripts.Instruction;
 public class InstructionManager : MonoBehaviour
 {
-    public RawImage[] _instructionImages;
+    public GameObject[] _instructionImagePrefabs;
 
     public InstructionDynamicLib _instructionDynamicLib;
 
@@ -45,4 +45,24 @@ public class InstructionManager : MonoBehaviour
         }
     }
 
+    public void AddInstructionToLibFromOutside(InstructionType instruction)
+    {
+
+    }
+
+    public void ClearSetInstructionFromOutside()
+    {
+
+    }
+
+    public void AddInstructionToSetFromUI()
+    {
+
+    }
+
+
+    public List<InstructionType> GetInstructionSetFromOutside()
+    {
+        return new List<InstructionType>();
+    }
 }

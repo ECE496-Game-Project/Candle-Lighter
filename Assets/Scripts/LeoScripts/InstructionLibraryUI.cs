@@ -15,7 +15,7 @@ public class InstructionLibraryUI : MonoBehaviour
             Draggable child = transform.GetChild(i).GetComponent<Draggable>();
             if (child == null) Debug.LogError($"Instruction library {i}th child does not have Draggable Script");
 
-            child.OnInstrctionCardStartDragging.AddListener(OnChildStartDragging);
+            child.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
         }
     }
 
@@ -23,13 +23,18 @@ public class InstructionLibraryUI : MonoBehaviour
     {
         Debug.Log("Hello");
         Draggable childDraggable = child.GetComponent<Draggable>();
-        childDraggable.OnInstrctionCardStartDragging.RemoveListener(OnChildStartDragging);
+        childDraggable.OnInstructionCardStartDragging.RemoveListener(OnChildStartDragging);
         _instructionSetUI.AddInstruction(childDraggable);
 
         GameObject newChild = Instantiate(child, transform);
         newChild.transform.SetSiblingIndex(index);
         Draggable newChildDraggable = newChild.GetComponent<Draggable>();
-        newChildDraggable.OnInstrctionCardStartDragging.AddListener(OnChildStartDragging);
+        newChildDraggable.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
+    }
+
+    public void AddInstruction()
+    {
+
     }
 
     // Update is called once per frame

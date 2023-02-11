@@ -1,3 +1,4 @@
+using Assets.Scripts.LeosScripts.Instruction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,8 @@ using UnityEngine.EventSystems;
 
 public class InstructionSetUI : MonoBehaviour
 {
-
+    [SerializeField]
+    private InstructionManager _instructionManager;
     [SerializeField]
     private GameObject _placeHolderPrefab;
 
@@ -65,7 +67,7 @@ public class InstructionSetUI : MonoBehaviour
         Draggable draggedObject = child.GetComponent<Draggable>();
         if (_placeHolder == null)
         {
-            draggedObject.OnInstrctionCardStartDragging.RemoveListener(OnChildStartDragging);
+            draggedObject.OnInstructionCardStartDragging.RemoveListener(OnChildStartDragging);
             draggedObject.OnInstructionCardDragging.RemoveListener(OnChildDragging);
             draggedObject.OnInstructionCardEndDragging.RemoveListener(OnChildEndDraggin);
             draggedObject.ParentToReturnTo = null;
@@ -88,7 +90,7 @@ public class InstructionSetUI : MonoBehaviour
 
     void SubscribeToInstruction(Draggable draggedObject)
     {
-        draggedObject.OnInstrctionCardStartDragging.AddListener(OnChildStartDragging);
+        draggedObject.OnInstructionCardStartDragging.AddListener(OnChildStartDragging);
         draggedObject.OnInstructionCardDragging.AddListener(OnChildDragging);
         draggedObject.OnInstructionCardEndDragging.AddListener(OnChildEndDraggin);
         draggedObject.OnInstructionCardClicked.AddListener(OnChildClicked);
@@ -101,4 +103,8 @@ public class InstructionSetUI : MonoBehaviour
         _placeHolder = Instantiate(_placeHolderPrefab, transform);
         draggedObject.ParentToReturnTo = transform;
     }
+
+
+
+    
 }
