@@ -32,8 +32,6 @@ public class PlayerController : MonoBehaviour
 
     private float _timer = 0;
 
-    public GameObject _lightPath;
-
     private void Awake()
     {
         _moveAction = _playerInput.actions["Move"];
@@ -97,12 +95,14 @@ public class PlayerController : MonoBehaviour
     }
 
     private void pressLight(InputAction.CallbackContext context) {
-        Transform origin = this.transform.Find("origin");
-        Transform foward = this.transform.Find("foward");
+        LightPath lightPath = Instantiate(
+            (GameObject)Resources.Load("Light/LightPath"),
+            this.transform.position,
+            Quaternion.LookRotation(this.transform.forward, Vector3.up),
+            this.transform
+        ).GetComponent<LightPath>();
 
-        LightPath lightPath = Instantiate(_lightPath, foward.position, Quaternion.identity, this.transform).GetComponent<LightPath>();
-        lightPath._position = origin.position;
-        lightPath._direction = foward.position - origin.position;
+        lightPath.InitExternInfo((GameObject)Resources.Load("Light/LightSection_Robot"));
     }
 
     void Update()
