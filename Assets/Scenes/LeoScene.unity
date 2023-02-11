@@ -2335,9 +2335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 2069276322}
   _directionReference: {fileID: 2069276325}
-  _hasInput: 0
-  _startingPosition: {x: 0, y: 0, z: 0}
-  _destination: {x: 0, y: 0, z: 0}
+  _instructionManager: {fileID: 1588231062}
   _timeToMove: 0.5
   _step: 1
 --- !u!114 &2069276324
