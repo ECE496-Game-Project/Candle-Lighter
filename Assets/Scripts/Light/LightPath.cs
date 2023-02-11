@@ -43,6 +43,9 @@ namespace Assets.Scripts.Light {
 
         public const float _lightTravelTime = 0.1f; // 1 block appear second
         public const float _destoryTime = 1.0f;
+        public const int _lowFreqInstruct = 20;
+        public const int _lowFreqLightDistance = 5;
+        public const int _highFreqLightDistance = 3;
         private Timer destoryTimer;
 
         public List<LightSection> _lightSectionList;
@@ -61,11 +64,11 @@ namespace Assets.Scripts.Light {
             _lightSectionType =lightSectionType;
         }
         private void InitDispersionLevel() {
-            if(_instructionSet.Count <= 3) {
-                _lightMaxDispLevel = 5;
+            if(_instructionSet.Count <= _lowFreqInstruct) {
+                _lightMaxDispLevel = _lowFreqLightDistance;
             }
             else {
-                _lightMaxDispLevel = 3;
+                _lightMaxDispLevel = _highFreqLightDistance;
             }
         }
         private void InitLightSectionList() {
@@ -80,6 +83,7 @@ namespace Assets.Scripts.Light {
             Physics.Raycast(this.transform.position + 0.5f * Vector3.up, this.transform.forward, out hit, Mathf.Infinity, ~(1 << 8))
             ) {
                 int tmpDistance = (int)Mathf.Round(hit.distance - 0.5f);
+
                 if (_lightDirDispLevel >= tmpDistance) {
                     _lightDirDispLevel = tmpDistance;
                     _lightHitLandScape = hit.transform.gameObject.GetComponent<BaseLandscape>();
@@ -87,7 +91,7 @@ namespace Assets.Scripts.Light {
             }
 
 
-            for (int i = 1; i <= _lightDirDispLevel+1; i++) {
+            for (int i = 1; i <= _lightDirDispLevel; i++) {
                 GameObject lightSectionGO = Instantiate(
                     _lightSectionType,
                     this.transform.position + this.transform.forward * i,
@@ -104,11 +108,6 @@ namespace Assets.Scripts.Light {
         }
 
         void Start() {
-            _instructionSet = new List<InstructionType>();
-            _instructionSet.Add(InstructionType.UP_INSTRUCT);
-            _instructionSet.Add(InstructionType.DOWN_INSTRUCT);
-            _instructionSet.Add(InstructionType.LEFT_INSTRUCT);
-            _instructionSet.Add(InstructionType.ACTIVATE_INSTRUCT);
 
             InitDispersionLevel();
             InitLightSectionList();
