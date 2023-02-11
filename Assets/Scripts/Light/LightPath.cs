@@ -2,26 +2,25 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.LeosScripts.Instruction;
-
+using Assets.Scripts.Landscape;
 namespace Assets.Scripts.Light {
     
     public class Timer {
         public float _TimePeriod = 10;
         public float _CurTime = 0;
-
-        public bool _TimerIsRunning { get; set; } = true;
+        public bool _TimerIsRunning = false;
 
         public Timer(float timePeriod) {
             this._TimePeriod = timePeriod;
             _CurTime = timePeriod;
+            _TimerIsRunning = true;
         }
 
         // if zero, reset and return true
-        public bool timeReach() {
+        public bool timeTick() {
             if (!_TimerIsRunning) return false;
 
             if (_CurTime < 0) {
-                Debug.Log("Time has run out!");
                 _CurTime = _TimePeriod;
                 return true;
             }
@@ -31,46 +30,78 @@ namespace Assets.Scripts.Light {
         }
     }
     
-    public struct LightSection {
-        /// <summary>
-        /// <br>Animation Play Sequence</br>
-        /// </summary>
-        int _dispersionLevel;
-        /// <summary>
-        /// <br>LightSection GameObject</br>
-        /// <br>created using prefab Instantiate after all section are computed</br>
-        /// </summary>
-        Transform _sectionTransform;
-    }
-
-    interface ILightInteract {
-        void LightInteract(LightPath curlight);
+    public class LightSection {
+        public int _dispersionLevel;
+        public GameObject _lightSectionGO;
     }
 
     public class LightPath : MonoBehaviour, IInstructionTransf {
+        #region GLOBAL VARIABLES
         private GameObject _lightSectionType;
-        private int _totalDispersionLevel;
-
-        public const float _velocity = 0.1f; // 1 block appear second
         
-        public readonly List<LightSection> _lightSectionList;
+        private int _lightMaxDispLevel;
+
+        public const float _lightTravelTime = 0.1f; // 1 block appear second
+        public const float _destoryTime = 1.0f;
+        private Timer destoryTimer;
+
+        public List<LightSection> _lightSectionList;
+
+        public BaseLandscape _lightHitLandScape;
+        private int _lightDirDispLevel;
+
 
         public List<InstructionType> _instructionSet {
             get; set;
         }
-        
+        #endregion
+
+        #region LIGHT CLASS INITALIZATION
         public void InitExternInfo(GameObject lightSectionType) {
             _lightSectionType =lightSectionType;
         }
         private void InitDispersionLevel() {
             if(_instructionSet.Count <= 3) {
-                _totalDispersionLevel = 5;
+                _lightMaxDispLevel = 5;
             }
             else {
-                _totalDispersionLevel = 3;
+                _lightMaxDispLevel = 3;
             }
         }
+        private void InitLightSectionList() {
 
+            _lightSectionList = new List<LightSection>();
+            _lightHitLandScape = null;
+
+            _lightDirDispLevel = _lightMaxDispLevel;
+            RaycastHit hit;
+
+            if (
+            Physics.Raycast(this.transform.position + 0.5f * Vector3.up, this.transform.forward, out hit, Mathf.Infinity, ~(1 << 8))
+            ) {
+                int tmpDistance = (int)Mathf.Round(hit.distance - 0.5f);
+                if (_lightDirDispLevel >= tmpDistance) {
+                    _lightDirDispLevel = tmpDistance;
+                    _lightHitLandScape = hit.transform.gameObject.GetComponent<BaseLandscape>();
+                }
+            }
+
+
+            for (int i = 1; i <= _lightDirDispLevel+1; i++) {
+                GameObject lightSectionGO = Instantiate(
+                    _lightSectionType,
+                    this.transform.position + this.transform.forward * i,
+                    Quaternion.identity,
+                    this.transform
+                );
+            }
+        }
+        #endregion
+
+        void LandscapeHandler() {
+            if (_lightHitLandScape == null) return;
+            _lightHitLandScape.LightInteract(this);
+        }
 
         void Start() {
             _instructionSet = new List<InstructionType>();
@@ -80,28 +111,18 @@ namespace Assets.Scripts.Light {
             _instructionSet.Add(InstructionType.ACTIVATE_INSTRUCT);
 
             InitDispersionLevel();
+            InitLightSectionList();
+            LandscapeHandler();
 
-            RaycastHit hit;
-            if (Physics.Raycast(
-                    this.transform.position + 0.5f * Vector3.up, 
-                    this.transform.forward, 
-                    out hit, 
-                    Mathf.Infinity, 
-                    ~(1 << 8) // only collider layer
-                )) 
-            {
-                for (int i = 1; i <= (int)Mathf.Round(hit.distance - 0.5f); i++) {
-                    LightPath lightPath = Instantiate(
-                        _lightSectionType,
-                        this.transform.position + this.transform.forward * i,
-                        Quaternion.identity,
-                        this.transform
-                    ).GetComponent<LightPath>();
-                }
-            }
+            destoryTimer = new Timer(_destoryTime);
         }
         void Update() {
-            
+            if (destoryTimer.timeTick()) {
+                foreach (Transform section in this.transform) {
+                    GameObject.Destroy(section.gameObject);
+                }
+                GameObject.Destroy(this.gameObject);
+            }
         }
     }
 }
