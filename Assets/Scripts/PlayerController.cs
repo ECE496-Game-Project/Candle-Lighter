@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private PlayerInput _playerInput;
 
+    [SerializeField]
+    private DirectionReference _directionReference;
+
     private InputAction _moveAction;
     private InputAction _shootAction;
 
@@ -58,6 +61,9 @@ public class PlayerController : MonoBehaviour
 
         _hasInput = true;
 
+
+        if (_isMoving) { return; }
+
         if (_direction.x > 0)
         {
             _direction = new Vector2(1, 0);
@@ -75,7 +81,39 @@ public class PlayerController : MonoBehaviour
             _direction = new Vector2(0, -1);
         }
 
-        if (_isMoving) { return; }
+        
+
+        Vector3 targetDirection = _directionReference.ScreenDirectionToWorldDirecton(_direction);
+        Vector3 currentDirection = transform.forward;
+
+        Debug.Log(targetDirection);
+        Debug.Log(currentDirection);
+        float angle = 0;
+
+        float value = Vector3.Dot(targetDirection, currentDirection);
+        Debug.Log(value);
+        if (value < -0.1)
+        {
+            if (value < -0.9) { angle = 180; }
+        }
+        else
+        {
+            Vector3 rotation = Vector3.Cross(targetDirection, currentDirection);
+            Debug.Log(rotation);
+            if (rotation.y > 0.9)
+            {
+                angle = -90;
+            }else if (rotation.y < -0.9)
+            {
+                angle = 90;
+            }
+        }
+
+
+        Debug.Log(angle); 
+        transform.Rotate(Vector3.up, angle);
+
+
         SetUpMovement();
 
     }
@@ -120,12 +158,12 @@ public class PlayerController : MonoBehaviour
             if (!_hasInput)
             {
                 _isMoving = false;
-                Debug.Log(1);
+                //Debug.Log(1);
             }
             else
             {
                 SetUpMovement();
-                Debug.Log(2);
+                //Debug.Log(2);
             }
             
         }
