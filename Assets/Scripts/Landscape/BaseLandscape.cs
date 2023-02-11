@@ -15,9 +15,8 @@ namespace Assets.Scripts.Landscape {
 
         public LandscapeType type;
 
-        public List<InstructionType> _InstructionSet {
-            get { return _InstructionSet; }
-            set { _InstructionSet = value; }
+        public List<InstructionType> _instructionSet {
+            get; set;
         }
 
         public virtual void LightInteract(LightPath curlight) {

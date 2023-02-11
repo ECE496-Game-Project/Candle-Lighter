@@ -78,7 +78,7 @@ public class InstructionManager : MonoBehaviour
     public void PackInstructionToLight(LightPath curlightpath)
     {
         // reference copy curlightpath.InstructionSet
-        curlightpath._InstructionSet = _instructionDynamicSet._instructionSet;
+        curlightpath._instructionSet = _instructionDynamicSet._instructionSet;
 
         // reference set to null
         _instructionDynamicSet.Clear();
@@ -90,5 +90,5 @@ public class InstructionManager : MonoBehaviour
 }
 interface IInstructionTransf
 {
-    public List<InstructionType> _InstructionSet { get ; set ; }
+    public List<InstructionType> _instructionSet { get ; set ; }
 }
