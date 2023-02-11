@@ -3,21 +3,44 @@ using System.Collections.Generic;
 using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.Android;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
 {
     private RectTransform _rectTransform;
 
     private Transform _parentToReturnTo;
 
+    public Transform ParentToReturnTo
+    {
+        get {return _parentToReturnTo; }
+        set {_parentToReturnTo = value;} 
+    }
+
     [SerializeField]
     private CanvasGroup _canvasGroup;
 
+    [SerializeField]
+    private GameObject _placeHolderPrefab;
+
+
+    public UnityEvent<int, GameObject> OnInstrctionCardStartDragging;
+
+    public UnityEvent<GameObject> OnInstructionCardDragging;
+
+    public UnityEvent<GameObject> OnInstructionCardEndDragging;
+
+    public UnityEvent<GameObject> OnInstructionCardClicked;
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("Begin Drag");
-        _parentToReturnTo = transform.parent;
+        
+        if (OnInstrctionCardStartDragging != null)
+        {
+            OnInstrctionCardStartDragging.Invoke(transform.GetSiblingIndex(), gameObject);
+        }
+
         transform.SetParent(transform.parent.parent);
 
         _canvasGroup.blocksRaycasts = false;
@@ -30,13 +53,28 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         {
             _rectTransform.position = globalMousePosition;
         }
+
+        if (OnInstructionCardDragging != null)
+        {
+            OnInstructionCardDragging.Invoke(gameObject);
+        }
+
+        
+        
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        transform.SetParent(_parentToReturnTo);
-        _canvasGroup.blocksRaycasts = true;
+        
+
+        if (OnInstructionCardEndDragging != null)
+        {
+            OnInstructionCardEndDragging.Invoke(gameObject);
+        }
         Debug.Log("End Drag");
+
+        if (ParentToReturnTo == null) Destroy(gameObject);
+        _canvasGroup.blocksRaycasts = true;
     }
 
     // Start is called before the first frame update
@@ -49,5 +87,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     void Update()
     {
         
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(OnInstructionCardClicked != null)
+        {
+            OnInstructionCardClicked.Invoke(gameObject);
+        }
     }
 }
