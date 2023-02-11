@@ -101,8 +101,8 @@ public class PlayerController : MonoBehaviour
         Transform foward = this.transform.Find("foward");
 
         LightPath lightPath = Instantiate(_lightPath, foward.position, Quaternion.identity, this.transform).GetComponent<LightPath>();
-        lightPath.position = origin.position;
-        lightPath.direction = foward.position - origin.position;
+        lightPath._position = origin.position;
+        lightPath._direction = foward.position - origin.position;
     }
 
     void Update()

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.LeosScripts.Instruction;
-public class InstructionManager : MonoBehaviour
-{
+using Assets.Scripts.Light;
+
+public class InstructionManager : MonoBehaviour {
     public RawImage[] _instructionImages;
 
     public InstructionDynamicLib _instructionDynamicLib;
@@ -28,21 +29,15 @@ public class InstructionManager : MonoBehaviour
         _instructionDynamicSet= new InstructionDynamicSet();
     }
 
-    public void ExecuteInstruction(List<InstructionType> patch, IInstrcutionExecutable target)
-    {
-        for (int i = 0; i < patch.Count; i++)
-        {
-            InstructionType instruction = patch[i];
+    public void PackInstructionToLight(LightPath curlightpath) {
 
-            if (instruction >= InstructionType.UP_INSTRUCT && instruction <= InstructionType.DOWN_INSTRUCT)
-            {
-                target.MovementExecute((Direction) instruction);
-            }
-            else if(instruction == InstructionType.ACTIVATE_INSTRUCT)
-            {
-                target.ActivateExecute();
-            }
-        }
+        //SetClear
+        // 1. clear all UI binding
+        // 2. reference copy curlightpath.InstructionSet
+        // 3. reference set to null
+
     }
-
+}
+interface IInstructionTransf {
+    public List<InstructionType> _InstructionSet { get; set; }
 }
