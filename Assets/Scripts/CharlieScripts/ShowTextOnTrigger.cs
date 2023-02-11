@@ -38,7 +38,7 @@ public class ShowTextOnTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!textBox.GetComponent<TextBoxViewer>().isLocked && other.CompareTag("Player"))
+        if (!textBox.GetComponent<TextBoxViewer>().isLocked && other.CompareTag("Player")) // TODO: 添加玩家发出的无指令光的判断条件
         {
             textBox.GetComponent<TextBoxViewer>().isLocked = true;
             textBox.GetComponent<TextBoxViewer>().OpenTextBox(textLines);
@@ -47,7 +47,7 @@ public class ShowTextOnTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (textBox.GetComponent<TextBoxViewer>().isLocked && other.CompareTag("Player"))
+        if (textBox.GetComponent<TextBoxViewer>().isLocked && other.CompareTag("Player")) // TODO: 添加玩家发出的无指令光的判断条件
         {
             textBox.GetComponent<TextBoxViewer>().isLocked = false;
             textBox.GetComponent<TextBoxViewer>().CloseTextBox();
