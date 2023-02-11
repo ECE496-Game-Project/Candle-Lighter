@@ -93,15 +93,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4357125598858329634, guid: 01ca7b377cb78e84bb047ef3b325b252, type: 3}
       propertyPath: m_Name
-      value: DownInstructionPrefab
+      value: DownInstructionCardPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300894910015087041, guid: 01ca7b377cb78e84bb047ef3b325b252, type: 3}
+      propertyPath: m_Color.b
+      value: 0.9811321
       objectReference: {fileID: 0}
     - target: {fileID: 5300894910015087041, guid: 01ca7b377cb78e84bb047ef3b325b252, type: 3}
       propertyPath: m_Color.g
-      value: 0.96657693
+      value: 0.9811321
       objectReference: {fileID: 0}
     - target: {fileID: 5300894910015087041, guid: 01ca7b377cb78e84bb047ef3b325b252, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.9811321
       objectReference: {fileID: 0}
+    - target: {fileID: 5300894910015087041, guid: 01ca7b377cb78e84bb047ef3b325b252, type: 3}
+      propertyPath: m_Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 7e3e6437453a544389c665079c2d144e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01ca7b377cb78e84bb047ef3b325b252, type: 3}
