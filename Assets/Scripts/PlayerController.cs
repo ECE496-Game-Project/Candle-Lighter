@@ -264,10 +264,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 SetUpMovement();
-            }
-
-            
-            
+            }  
         }
     }
 }
