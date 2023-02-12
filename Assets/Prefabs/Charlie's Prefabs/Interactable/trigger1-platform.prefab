@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1685889950039322668}
   - component: {fileID: 6133843313093740122}
+  - component: {fileID: 8470982704740207079}
+  - component: {fileID: 8089530834792145990}
+  - component: {fileID: 765932613281820117}
   m_Layer: 0
   m_Name: trigger1-platform
   m_TagString: Untagged
@@ -47,6 +50,50 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.4291923, y: 1.6446623, z: 1.388586}
   m_Center: {x: 0.018195152, y: 0.81150883, z: -0.0014977157}
+--- !u!114 &8470982704740207079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3162719395771483911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09f18f86461b4058a87f914e3709375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textBox: {fileID: 1754115172375393951, guid: 45489893b827b4eb99f59a9fc1af3a6a, type: 3}
+  textLines: []
+  filename: trigger-light
+  textSpeed: 0.1
+--- !u!114 &8089530834792145990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3162719395771483911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38b374dbc3633b4fbd05350c2733a52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _landscapeType: 0
+  _instructionManager: {fileID: 0}
+--- !u!114 &765932613281820117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3162719395771483911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 841e15725524b1e438958d5aada1aec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _landscapeType: 0
+  _instructionManager: {fileID: 0}
 --- !u!1001 &775755774236407341
 PrefabInstance:
   m_ObjectHideFlags: 0

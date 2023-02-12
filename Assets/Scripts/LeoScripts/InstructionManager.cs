@@ -49,7 +49,7 @@ public class InstructionManager : MonoBehaviour
         {
             InstructionType instruction = patch[i];
 
-            if (instruction >= InstructionType.UP_INSTRUCT && instruction <= InstructionType.DOWN_INSTRUCT)
+            if (instruction >= InstructionType.UP_INSTRUCT && instruction <= InstructionType.RIGHT_INSTRUCT)
             {
                 target.MovementExecute((Direction)instruction);
             }

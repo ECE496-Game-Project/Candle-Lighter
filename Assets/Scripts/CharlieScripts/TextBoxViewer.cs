@@ -6,19 +6,24 @@ using TMPro;
 public class TextBoxViewer : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
-    public bool isLocked = false;
+    public GameObject textBox;
+    public bool isLocked;
 
     private int index;
 
     void Start()
     {
-        gameObject.SetActive(false);
+        isLocked = false;
+        textBox = transform.GetChild(0).gameObject;
+        textBox.SetActive(false);
         textComponent.text = string.Empty;
     }
 
     public void OpenTextBox(List<string> lines)
     {
-        gameObject.SetActive(true);
+        Debug.Log("first line: " + lines[0]);
+        textBox.SetActive(true);
+        Debug.Log($"textBox:{textBox}");
         index = 0;
 
         while (index < lines.Count)
@@ -32,6 +37,6 @@ public class TextBoxViewer : MonoBehaviour
     public void CloseTextBox()
     {
         textComponent.text = string.Empty;
-        gameObject.SetActive(false);
+        textBox.SetActive(false);
     }
 }

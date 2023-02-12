@@ -1,0 +1,3 @@
+A box with a complex structure. 
+The bottom has a mobile that can be activated in some way.
+Huge and bloated, what was it originally used for?

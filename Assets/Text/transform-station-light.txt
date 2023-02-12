@@ -1,0 +1,2 @@
+Relay station, after activation, it will spread the follow-up signal to the surroundings.
+It only takes a little energy to activate, so where does the added part come from?

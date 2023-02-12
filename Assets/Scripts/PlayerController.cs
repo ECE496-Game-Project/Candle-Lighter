@@ -6,6 +6,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Assets.Scripts.Light;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -52,11 +53,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int _step = 1;
 
+    /// <summary>
+    /// Used for animation
+    /// </summary>
+    
     private float _timer = 0;
 
+    // total amount of time it takes to do the animation
+    private float _duration;
 
-    
-
+    //private Transform _character;
     private void Awake()
     {
         _moveAction = _playerInput.actions["Move"];
@@ -65,6 +71,17 @@ public class PlayerController : MonoBehaviour
 
         _shootAction = _playerInput.actions["Shoot"];
         _shootAction.performed += pressLight;
+
+        if (this.transform.childCount > 1)
+        {
+            Debug.LogWarning("The player object has multiple children, it might not be able to find the character model");
+        }
+
+        //_character = this.transform.GetChild(0);
+        //Character c = _character.GetComponent<Character>();
+        //if (c == null) Debug.LogError("Character does not have character script");
+
+        //c.OnCharacterCollisionEnter.AddListener(OnCharacterCollisionEnter);
     }
 
 
@@ -83,30 +100,36 @@ public class PlayerController : MonoBehaviour
         Debug.Log("startMoving");
 
         _direction = context.ReadValue<Vector2>();
-
-        if (_direction.x > 0)
-        {
-            _direction = new Vector2(1, 0);
-        }
-        else if (_direction.x < 0)
-        {
-            _direction = new Vector2(-1, 0);
-        }
-        else if (_direction.y > 0)
-        {
-            _direction = new Vector2(0, 1);
-        }
-        else
-        {
-            _direction = new Vector2(0, -1);
-        }
+        _direction = FilterDirection(_direction);
         _hasInput = true;
         if (_isMoving) { return; }
 
-        
+
 
         SetUpMovement();
 
+    }
+
+    private Vector2 FilterDirection(Vector2 direction)
+    {
+        if (direction.x > 0)
+        {
+            direction = new Vector2(1, 0);
+        }
+        else if (direction.x < 0)
+        {
+            direction = new Vector2(-1, 0);
+        }
+        else if (direction.y > 0)
+        {
+            direction = new Vector2(0, 1);
+        }
+        else
+        {
+            direction = new Vector2(0, -1);
+        }
+
+        return direction;
     }
 
     private void ChangeDirection()
@@ -145,10 +168,41 @@ public class PlayerController : MonoBehaviour
 
     private void SetUpMovement()
     {
-        Debug.Log("Direction" + _direction.x + ", " + _direction.y);
         ChangeDirection();
+
+        if (!canMove()) return;
         _startingPosition = transform.position;
         _destination = _startingPosition + _step * new Vector3(_direction.x, 0, _direction.y);
+        _timer = 0;
+        _duration = _timeToMove;
+        _isMoving = true;
+    }
+
+    private bool canMove()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(this.transform.position + 0.5f * Vector3.up, this.transform.forward, out hit, _step, ~(1 << 8))){
+            return false;
+        }
+        return true;
+    }
+
+    private void SetUpMovement(Vector3 start, Vector3 end)
+    {
+        Vector3 direction3D = (end - start).normalized;
+        Vector2 direction2D = new Vector2(Mathf.Round(direction3D.x), Mathf.Round(direction3D.y));
+        _direction = FilterDirection(direction2D);
+
+        ChangeDirection();
+        _startingPosition = start;
+        _destination = end;
+
+        float distance = Vector3.Magnitude(end - start);
+
+        float unit = distance / _step;
+
+        _duration = _timeToMove * unit;
         _timer = 0;
         _isMoving = true;
     }
@@ -175,29 +229,42 @@ public class PlayerController : MonoBehaviour
         //}
     }
 
+    //public void OnCharacterCollisionEnter(Collision collision)
+    //{
+    //    Debug.Log("Enter Collision");
+
+    //    SetUpMovement(transform.position, _startingPosition);
+
+    //    //transform.position = _character.position;
+    //    //_character.localPosition = Vector3.zero;
+    //    //Debug.Log($"starting position: {_startingPosition}");
+    //    //Debug.Log($"Destination: {_destination}");
+    //    //Debug.Log($"timer: {_timer}");
+    //    //Debug.Log($"Duration: {_duration}");
+    //}
+
     void Update()
     {
 
         if (!_isMoving) { return; }
 
         _timer += Time.deltaTime;
-        Debug.Log(_timer);
-        transform.position = Vector3.Lerp(_startingPosition, _destination, _timer / _timeToMove);
-        Debug.Log(transform.position);
+
+        //Debug.Log(_timer);
+        transform.position = Vector3.Lerp(_startingPosition, _destination, _timer / _duration);
+        //Debug.Log(transform.position);
         
-        if (_timer >= _timeToMove)
+        if (_timer >= _duration)
         {
+
             if (!_hasInput)
             {
                 _isMoving = false;
-                //Debug.Log(1);
             }
             else
             {
                 SetUpMovement();
-                //Debug.Log(2);
-            }
-            
+            }  
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.LeosScripts.Instruction;
 
 public class DirectionReference: MonoBehaviour 
 {
@@ -35,6 +36,18 @@ public class DirectionReference: MonoBehaviour
                 return D;
             default:
                 return Vector3.zero;
+        }
+    }
+
+    public Vector3 DirectionToWorldDirection(Direction direction)
+    {
+        switch(direction)
+        {
+            case Direction.UP: return W;
+            case Direction.DOWN: return S;
+            case Direction.LEFT: return A;
+            case Direction.RIGHT: return D;
+            default: return Vector3.zero;
         }
     }
 

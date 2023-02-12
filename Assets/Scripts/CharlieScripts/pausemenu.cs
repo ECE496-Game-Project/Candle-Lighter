@@ -12,7 +12,7 @@ public class pausemenu : MonoBehaviour
 
     private void Start()
     {
-        pauseMenu = transform.Find("Pausemenu").gameObject;
+        pauseMenu = transform.GetChild(0).gameObject;
         pauseMenu.SetActive(false);
     }
 

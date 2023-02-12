@@ -532,7 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b1eba209c5b5ba4db2d3aac282d0aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 0}
+  pauseMenu: {fileID: 7933804525660523663}
 --- !u!1 &7933804525660523663
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,7 +545,7 @@ GameObject:
   - component: {fileID: 7933804525660523650}
   - component: {fileID: 7933804525660523661}
   m_Layer: 5
-  m_Name: Pausemenu
+  m_Name: pause_menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
