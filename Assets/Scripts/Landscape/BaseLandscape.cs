@@ -26,21 +26,22 @@ namespace Assets.Scripts.Landscape {
             //Debug.Log("BaseLandscape: LightInteract Triggered!");
             this._instructionSet = curlight._instructionSet;
             if (this._instructionSet == null) return;
+            _instructionManager.ExecuteInstruction(_instructionSet, this);
             //for (int i = 0; i < this._instructionSet.Count; i++) {
             //    Debug.Log($"Instruction {this._instructionSet[i]}");
             //}
         }
 
         public virtual void MovementExecute(Direction direction) {
-            //Debug.Log("BaseLandscape: MovementExecute Triggered!");
+            Debug.Log("BaseLandscape: MovementExecute Triggered!");
         }
 
         public virtual void ActivateExecute() {
-            //Debug.Log("BaseLandscape: ActivateExecute Triggered!");
+            Debug.Log("BaseLandscape: ActivateExecute Triggered!");
         }
 
         public virtual void Start() {
-            _instructionManager = GameObject.Find("InstructionManager");
+            _instructionManager = GameObject.FindObjectsOfType<InstructionManager>()[0];
         }
     }
 }
