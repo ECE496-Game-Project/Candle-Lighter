@@ -1,3 +1,0 @@
-Object Name: Box
-Object Property: Black Body
-Object Description: It seems not a thing that worth discussion

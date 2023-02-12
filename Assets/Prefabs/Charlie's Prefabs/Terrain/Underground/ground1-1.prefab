@@ -93,6 +93,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6208961109381614344}
   - component: {fileID: 3262415548806550900}
+  - component: {fileID: 9041861608522343896}
+  - component: {fileID: -2772856931900961867}
   m_Layer: 0
   m_Name: ground1-1
   m_TagString: Untagged
@@ -129,3 +131,33 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.6754918, y: 1.6290417, z: 1.6285102}
   m_Center: {x: 0.07833958, y: 0.79375374, z: 0.012874603}
+--- !u!114 &9041861608522343896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6728793008224358834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09f18f86461b4058a87f914e3709375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textBox: {fileID: 6546403585163283845, guid: c73577925d6f14fe38dafad0e149dd13, type: 3}
+  textLines: []
+  filename: ground1-light
+  textSpeed: 0.1
+--- !u!114 &-2772856931900961867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6728793008224358834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af54f84d426b467eac18eaea0488163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _landscapeType: 0
+  _instructionManager: {fileID: 0}

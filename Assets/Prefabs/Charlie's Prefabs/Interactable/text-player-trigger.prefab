@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4819014791137828564}
   - component: {fileID: 4251473281348546962}
   m_Layer: 0
-  m_Name: TextTrigger
+  m_Name: text-player-trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,5 +58,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32390b685eb2543ac8f06d7b3b1cb27d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerText: 
-  displayText: {fileID: 0}
+  textBox: {fileID: 6546403585163283845, guid: c73577925d6f14fe38dafad0e149dd13, type: 3}
+  textLines: []
+  filename: 
