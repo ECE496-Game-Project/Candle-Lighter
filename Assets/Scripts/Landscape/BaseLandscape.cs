@@ -17,6 +17,10 @@ namespace Assets.Scripts.Landscape {
 
         public InstructionManager _instructionManager;
 
+        [SerializeField] private TextBoxViewer _textBoxViewer;
+        [SerializeField] private ReadText _objTextDescription;
+
+
         public List<InstructionType> _instructionSet {
             get; set;
         }
@@ -29,17 +33,15 @@ namespace Assets.Scripts.Landscape {
             if (this._instructionSet == null) return;
             if (this._instructionSet.Count == 0)
             {
-                GameObject textBox = gameObject.GetComponent<ReadText>().textBox;
-                ShowInfo(textBox);
-                return;
+                if (!_textBoxViewer.isLocked) {
+                    _textBoxViewer.isLocked = true;
+                    StartCoroutine(EmptyInstructLightShowText());
+                    _textBoxViewer.isLocked = false;
+                }
             }
-
-            _instructionManager.ExecuteInstruction(_instructionSet, this);
-
-            for (int i = 0; i < this._instructionSet.Count; i++)
-            {
-                Debug.Log($"Instruction {this._instructionSet[i]}");
-            }  
+            else {
+                _instructionManager.ExecuteInstruction(_instructionSet, this);
+            }
         }
 
         public virtual void MovementExecute(Direction direction) {
@@ -52,40 +54,16 @@ namespace Assets.Scripts.Landscape {
 
         public virtual void Start() {
             _instructionManager = GameObject.FindObjectsOfType<InstructionManager>()[0];
+
+            _objTextDescription = gameObject.GetComponent<ReadText>();
+            _textBoxViewer = _objTextDescription.textBox.GetComponent<TextBoxViewer>();
         }
 
-        public void ShowInfo(GameObject textBox)
-        {
-            if (!textBox.GetComponent<TextBoxViewer>().isLocked)
-            {
-                List<string> textlines = gameObject.GetComponent<ReadText>().textLines;
-                float textSpeed = gameObject.GetComponent<ReadText>().textSpeed;
-                textBox.GetComponent<TextBoxViewer>().isLocked = true;
-                textBox.GetComponent<TextBoxViewer>().OpenTextBox(textlines);
-                StartCoroutine(WaitForRead(textlines, textSpeed));
-                CloseInfo(textBox);
-            }
+        IEnumerator EmptyInstructLightShowText() {
+            _textBoxViewer.OpenTextBox(_objTextDescription.textLines);
+            yield return new WaitForSeconds(2.0f);
+            _textBoxViewer.CloseTextBox();
         }
 
-        public void CloseInfo(GameObject textBox)
-        {
-            if (textBox.GetComponent<TextBoxViewer>().isLocked)
-            {
-                textBox.GetComponent<TextBoxViewer>().isLocked = false;
-                textBox.GetComponent<TextBoxViewer>().CloseTextBox();
-            }
-        }
-
-        IEnumerator WaitForRead(List<string> textlines, float textSpeed)
-        {
-            foreach(string line in textlines)
-            {
-                foreach(char c in line)
-                {
-                    Debug.Log("Wait a sec");
-                    yield return new WaitForSeconds(textSpeed);
-                }
-            }
-        }
     }
 }
