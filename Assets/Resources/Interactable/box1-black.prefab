@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 753622019049974244}
   - component: {fileID: 3772705403991114079}
   - component: {fileID: 5312579888439756842}
-  - component: {fileID: 3551379110467069292}
   - component: {fileID: -3893999158393563127}
+  - component: {fileID: 6640567345350425874}
   m_Layer: 0
   m_Name: box1-black
   m_TagString: Untagged
@@ -66,21 +66,6 @@ MonoBehaviour:
   textLines: []
   filename: box-light
   textSpeed: 0.1
---- !u!114 &3551379110467069292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2124200397301424756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c38b374dbc3633b4fbd05350c2733a52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _landscapeType: 0
-  _instructionManager: {fileID: 0}
-  _Elevator_Animator: {fileID: 0}
 --- !u!114 &-3893999158393563127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +82,22 @@ MonoBehaviour:
   _instructionManager: {fileID: 0}
   _step: 1
   _timeToMove: 0.5
+--- !u!54 &6640567345350425874
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124200397301424756}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1001 &5719755509027794631
 PrefabInstance:
   m_ObjectHideFlags: 0
