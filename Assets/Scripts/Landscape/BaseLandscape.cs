@@ -23,12 +23,20 @@ namespace Assets.Scripts.Landscape {
 
         // only for BLACKBODY
         public virtual void LightInteract(LightPath curlight) {
-            //Debug.Log("BaseLandscape: LightInteract Triggered!");
+            Debug.Log("BaseLandscape: LightInteract Triggered!");
             this._instructionSet = curlight._instructionSet;
-            if (this._instructionSet == null) return;
-            //for (int i = 0; i < this._instructionSet.Count; i++) {
-            //    Debug.Log($"Instruction {this._instructionSet[i]}");
-            //}
+            if (this._instructionSet == null)
+            {
+                GameObject textBox = gameObject.GetComponent<ReadText>().textBox;
+                ShowInfo(textBox);
+            }
+
+            for (int i = 0; i < this._instructionSet.Count; i++)
+            {
+                Debug.Log($"Instruction {this._instructionSet[i]}");
+            }
+
+
         }
 
         public virtual void MovementExecute(Direction direction) {
@@ -40,7 +48,40 @@ namespace Assets.Scripts.Landscape {
         }
 
         public virtual void Start() {
-            _instructionManager = GameObject.Find("InstructionManager");
+            //_instructionManager = GameObject.Find("InstructionManager");
+        }
+
+        public void ShowInfo(GameObject textBox)
+        {
+            if (!textBox.GetComponent<TextBoxViewer>().isLocked)
+            {
+                List<string> textlines = gameObject.GetComponent<ReadText>().textLines;
+                float textSpeed = gameObject.GetComponent<ReadText>().textSpeed;
+                textBox.GetComponent<TextBoxViewer>().isLocked = true;
+                textBox.GetComponent<TextBoxViewer>().OpenTextBox(textlines);
+                StartCoroutine(WaitForRead(textlines, textSpeed));
+                CloseInfo(textBox);
+            }
+        }
+
+        public void CloseInfo(GameObject textBox)
+        {
+            if (textBox.GetComponent<TextBoxViewer>().isLocked)
+            {
+                textBox.GetComponent<TextBoxViewer>().isLocked = false;
+                textBox.GetComponent<TextBoxViewer>().CloseTextBox();
+            }
+        }
+
+        IEnumerator WaitForRead(List<string> textlines, float textSpeed)
+        {
+            foreach(string line in textlines)
+            {
+                foreach(char c in line)
+                {
+                    yield return new WaitForSeconds(textSpeed);
+                }
+            }
         }
     }
 }

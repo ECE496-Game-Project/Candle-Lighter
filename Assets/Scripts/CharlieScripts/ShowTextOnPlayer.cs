@@ -13,6 +13,7 @@ public class ShowTextOnPlayer : MonoBehaviour
     {
         file_root_path = Application.dataPath + "/Text/";
         readTextFile(file_root_path + filename + ".txt");
+        textBox = (transform.Find("TextBox") != null) ? transform.Find("TextBox")?.gameObject : textBox;
     }
 
     void readTextFile(string file_path)

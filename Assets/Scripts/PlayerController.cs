@@ -181,21 +181,17 @@ public class PlayerController : MonoBehaviour
         if (!_isMoving) { return; }
 
         _timer += Time.deltaTime;
-        Debug.Log(_timer);
         transform.position = Vector3.Lerp(_startingPosition, _destination, _timer / _timeToMove);
-        Debug.Log(transform.position);
         
         if (_timer >= _timeToMove)
         {
             if (!_hasInput)
             {
                 _isMoving = false;
-                //Debug.Log(1);
             }
             else
             {
                 SetUpMovement();
-                //Debug.Log(2);
             }
             
         }
