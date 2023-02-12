@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c09f18f86461b4058a87f914e3709375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBox: {fileID: 6546403585163283845, guid: c73577925d6f14fe38dafad0e149dd13, type: 3}
+  textBox: {fileID: 1754115172375393951, guid: 45489893b827b4eb99f59a9fc1af3a6a, type: 3}
   textLines: []
   filename: card-light
   textSpeed: 0.1
@@ -87,6 +87,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _landscapeType: 0
   _instructionManager: {fileID: 0}
+  _textBoxViewer: {fileID: 0}
+  _objTextDescription: {fileID: 0}
 --- !u!1 &3848481155143266513
 GameObject:
   m_ObjectHideFlags: 0
