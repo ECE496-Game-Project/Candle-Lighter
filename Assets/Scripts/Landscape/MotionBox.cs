@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Assets.Scripts.Light;
+using Assets.Scripts.LeosScripts.Instruction;
+
 namespace Assets.Scripts.Landscape {
     public class MotionBox : BaseLandscape {
 
         public override void LightInteract(LightPath curlight) {
             base.LightInteract(curlight);
-            //Debug.Log("MotionBox: LightInteract Triggered");
+            
             
         }
 

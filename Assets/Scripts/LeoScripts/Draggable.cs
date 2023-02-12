@@ -76,7 +76,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         {
             OnInstructionCardEndDragging.Invoke(gameObject);
         }
-        Debug.Log("End Drag");
+        //Debug.Log("End Drag");
 
         if (ParentToReturnTo == null) Destroy(gameObject);
         _canvasGroup.blocksRaycasts = true;

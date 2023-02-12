@@ -32,7 +32,7 @@ public class InstructionLibraryUI : MonoBehaviour
 
     void OnChildStartDragging(int index, GameObject child)
     {
-        Debug.Log("Hello");
+        //Debug.Log("Hello");
         Draggable childDraggable = child.GetComponent<Draggable>();
         childDraggable.OnInstructionCardStartDragging.RemoveListener(OnChildStartDragging);
         _instructionSetUI.AddInstruction(childDraggable);

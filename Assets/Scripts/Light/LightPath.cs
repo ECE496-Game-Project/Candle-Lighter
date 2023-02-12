@@ -4,32 +4,6 @@ using System.Collections.Generic;
 using Assets.Scripts.LeosScripts.Instruction;
 using Assets.Scripts.Landscape;
 namespace Assets.Scripts.Light {
-    
-    public class Timer {
-        public float _TimePeriod = 10;
-        public float _CurTime = 0;
-        public bool _TimerIsRunning = false;
-
-        public Timer(float timePeriod) {
-            this._TimePeriod = timePeriod;
-            _CurTime = timePeriod;
-            _TimerIsRunning = true;
-        }
-
-        // if zero, reset and return true
-        public bool timeTick() {
-            if (!_TimerIsRunning) return false;
-
-            if (_CurTime < 0) {
-                _CurTime = _TimePeriod;
-                return true;
-            }
-
-            _CurTime -= Time.deltaTime;
-            return false;
-        }
-    }
-    
     public class LightSection {
         public int _dispersionLevel;
         public GameObject _lightSectionGO;
@@ -46,7 +20,6 @@ namespace Assets.Scripts.Light {
         public const int _lowFreqInstruct = 20;
         public const int _lowFreqLightDistance = 5;
         public const int _highFreqLightDistance = 3;
-        private Timer destoryTimer;
 
         public List<LightSection> _lightSectionList;
 
@@ -113,15 +86,15 @@ namespace Assets.Scripts.Light {
             InitLightSectionList();
             LandscapeHandler();
 
-            destoryTimer = new Timer(_destoryTime);
+            StartCoroutine(DestoryLightPath());
         }
-        void Update() {
-            if (destoryTimer.timeTick()) {
-                foreach (Transform section in this.transform) {
-                    GameObject.Destroy(section.gameObject);
-                }
-                GameObject.Destroy(this.gameObject);
+
+        IEnumerator DestoryLightPath() {
+            yield return new WaitForSeconds(_destoryTime);
+            foreach (Transform section in this.transform) {
+                GameObject.Destroy(section.gameObject);
             }
+            GameObject.Destroy(this.gameObject);
         }
     }
 }
