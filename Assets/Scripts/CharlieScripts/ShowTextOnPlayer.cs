@@ -9,7 +9,7 @@ public class ShowTextOnPlayer : MonoBehaviour
     private string file_root_path;
     public string filename;
 
-    private void Start()
+    private void Awake()
     {
         file_root_path = Application.dataPath + "/Text/";
         readTextFile(file_root_path + filename + ".txt");

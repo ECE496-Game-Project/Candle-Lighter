@@ -250,9 +250,9 @@ public class PlayerController : MonoBehaviour
 
         _timer += Time.deltaTime;
 
-        Debug.Log(_timer);
+        //Debug.Log(_timer);
         transform.position = Vector3.Lerp(_startingPosition, _destination, _timer / _duration);
-        Debug.Log(transform.position);
+        //Debug.Log(transform.position);
         
         if (_timer >= _duration)
         {

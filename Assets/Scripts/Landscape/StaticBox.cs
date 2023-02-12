@@ -6,7 +6,7 @@ namespace Assets.Scripts.Landscape {
 
         public override void LightInteract(LightPath curlight) {
             base.LightInteract(curlight);
-            //Debug.Log("MotionBox: LightInteract Triggered");
+            Debug.Log("StaticBox: LightInteract Triggered");
             
         }
 
