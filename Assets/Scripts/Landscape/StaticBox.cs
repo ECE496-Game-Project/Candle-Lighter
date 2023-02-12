@@ -2,12 +2,12 @@
 using UnityEngine;
 using Assets.Scripts.Light;
 namespace Assets.Scripts.Landscape {
-    public class ActionBox : BaseLandscape {
+    public class StaticBox : BaseLandscape {
 
         public override void LightInteract(LightPath curlight) {
             base.LightInteract(curlight);
-            //Debug.Log("ActionBox: LightInteract Triggered");
-
+            //Debug.Log("MotionBox: LightInteract Triggered");
+            
         }
 
         // Use this for initialization

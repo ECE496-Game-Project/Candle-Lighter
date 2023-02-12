@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 837114243085296136}
   - component: {fileID: 870531207974716897}
+  - component: {fileID: 1400595810611649871}
+  - component: {fileID: 7253678410268324888}
   m_Layer: 0
   m_Name: card
   m_TagString: Untagged
@@ -55,6 +57,36 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1400595810611649871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60189828942444722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09f18f86461b4058a87f914e3709375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textBox: {fileID: 6546403585163283845, guid: c73577925d6f14fe38dafad0e149dd13, type: 3}
+  textLines: []
+  filename: card-light
+  textSpeed: 0.1
+--- !u!114 &7253678410268324888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60189828942444722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af54f84d426b467eac18eaea0488163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _landscapeType: 0
+  _instructionManager: {fileID: 0}
 --- !u!1 &3848481155143266513
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,11 +262,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4251473281348546962, guid: edcf734e3d5eb418cac085555b414559, type: 3}
       propertyPath: filename
-      value: card
+      value: card-player
       objectReference: {fileID: 0}
     - target: {fileID: 4890036377629101765, guid: edcf734e3d5eb418cac085555b414559, type: 3}
       propertyPath: m_Name
-      value: TextTrigger
+      value: text-player-trigger
       objectReference: {fileID: 0}
     - target: {fileID: 6223566145155889933, guid: edcf734e3d5eb418cac085555b414559, type: 3}
       propertyPath: m_RootOrder
