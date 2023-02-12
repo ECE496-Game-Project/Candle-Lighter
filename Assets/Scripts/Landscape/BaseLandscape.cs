@@ -15,13 +15,21 @@ namespace Assets.Scripts.Landscape {
 
         public LandscapeType _landscapeType;
 
+        public InstructionManager _instructionManager;
+
         public List<InstructionType> _instructionSet {
             get; set;
         }
 
         // only for BLACKBODY
         public virtual void LightInteract(LightPath curlight) {
-            Debug.Log("BaseLandscape: LightInteract Triggered!");
+            //Debug.Log("BaseLandscape: LightInteract Triggered!");
+            this._instructionSet = curlight._instructionSet;
+            if (this._instructionSet == null) return;
+            _instructionManager.ExecuteInstruction(_instructionSet, this);
+            //for (int i = 0; i < this._instructionSet.Count; i++) {
+            //    Debug.Log($"Instruction {this._instructionSet[i]}");
+            //}
         }
 
         public virtual void MovementExecute(Direction direction) {
@@ -30,6 +38,10 @@ namespace Assets.Scripts.Landscape {
 
         public virtual void ActivateExecute() {
             Debug.Log("BaseLandscape: ActivateExecute Triggered!");
+        }
+
+        public virtual void Start() {
+            _instructionManager = GameObject.FindObjectsOfType<InstructionManager>()[0];
         }
     }
 }
