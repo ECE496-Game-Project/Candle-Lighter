@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     // total amount of time it takes to do the animation
     private float _duration;
 
-    private Transform _character;
+    //private Transform _character;
     private void Awake()
     {
         _moveAction = _playerInput.actions["Move"];
@@ -77,11 +77,11 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("The player object has multiple children, it might not be able to find the character model");
         }
 
-        _character = this.transform.GetChild(0);
-        Character c = _character.GetComponent<Character>();
-        if (c == null) Debug.LogError("Character does not have character script");
+        //_character = this.transform.GetChild(0);
+        //Character c = _character.GetComponent<Character>();
+        //if (c == null) Debug.LogError("Character does not have character script");
 
-        c.OnCharacterCollisionEnter.AddListener(OnCharacterCollisionEnter);
+        //c.OnCharacterCollisionEnter.AddListener(OnCharacterCollisionEnter);
     }
 
 
@@ -229,19 +229,19 @@ public class PlayerController : MonoBehaviour
         //}
     }
 
-    public void OnCharacterCollisionEnter(Collision collision)
-    {
-        Debug.Log("Enter Collision");
+    //public void OnCharacterCollisionEnter(Collision collision)
+    //{
+    //    Debug.Log("Enter Collision");
 
-        SetUpMovement(transform.position, _startingPosition);
+    //    SetUpMovement(transform.position, _startingPosition);
 
-        //transform.position = _character.position;
-        //_character.localPosition = Vector3.zero;
-        //Debug.Log($"starting position: {_startingPosition}");
-        //Debug.Log($"Destination: {_destination}");
-        //Debug.Log($"timer: {_timer}");
-        //Debug.Log($"Duration: {_duration}");
-    }
+    //    //transform.position = _character.position;
+    //    //_character.localPosition = Vector3.zero;
+    //    //Debug.Log($"starting position: {_startingPosition}");
+    //    //Debug.Log($"Destination: {_destination}");
+    //    //Debug.Log($"timer: {_timer}");
+    //    //Debug.Log($"Duration: {_duration}");
+    //}
 
     void Update()
     {
