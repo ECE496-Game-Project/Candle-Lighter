@@ -35,22 +35,22 @@ public class ShowTextOnPlayer : MonoBehaviour
         }    
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!textBox.GetComponent<TextBoxViewer>().isLocked && other.CompareTag("Player"))
-        {
-            Debug.Log("Enter");
-            textBox.GetComponent<TextBoxViewer>().isLocked = true;
-            textBox.GetComponent<TextBoxViewer>().OpenTextBox(textLines);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (!textBox.GetComponent<TextBoxViewer>().isLocked && other.CompareTag("Player"))
+    //    {
+    //        Debug.Log("Enter");
+    //        textBox.GetComponent<TextBoxViewer>().isLocked = true;
+    //        textBox.GetComponent<TextBoxViewer>().OpenTextBox(textLines);
+    //    }
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (textBox.GetComponent<TextBoxViewer>().isLocked && other.CompareTag("Player"))
-        {
-            textBox.GetComponent<TextBoxViewer>().isLocked = false;
-            textBox.GetComponent<TextBoxViewer>().CloseTextBox();
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (textBox.GetComponent<TextBoxViewer>().isLocked && other.CompareTag("Player"))
+    //    {
+    //        textBox.GetComponent<TextBoxViewer>().isLocked = false;
+    //        textBox.GetComponent<TextBoxViewer>().CloseTextBox();
+    //    }
+    //}
 }
