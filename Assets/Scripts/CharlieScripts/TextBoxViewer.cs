@@ -7,12 +7,13 @@ public class TextBoxViewer : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public GameObject textBox;
-    public bool isLocked = false;
+    public bool isLocked;
 
     private int index;
 
     void Start()
     {
+        isLocked = false;
         textBox = transform.GetChild(0).gameObject;
         textBox.SetActive(false);
         textComponent.text = string.Empty;
