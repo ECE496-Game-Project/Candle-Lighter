@@ -26,7 +26,8 @@ namespace Assets.Scripts.Landscape {
             Debug.Log("BaseLandscape: LightInteract Triggered!");
             this._instructionSet = curlight._instructionSet;
 
-            if (this._instructionSet == null)
+            if (this._instructionSet == null) return;
+            if (this._instructionSet.Count == 0)
             {
                 GameObject textBox = gameObject.GetComponent<ReadText>().textBox;
                 ShowInfo(textBox);
@@ -57,7 +58,6 @@ namespace Assets.Scripts.Landscape {
         {
             if (!textBox.GetComponent<TextBoxViewer>().isLocked)
             {
-                Debug.Log("Text Box is Unlocked");
                 List<string> textlines = gameObject.GetComponent<ReadText>().textLines;
                 float textSpeed = gameObject.GetComponent<ReadText>().textSpeed;
                 textBox.GetComponent<TextBoxViewer>().isLocked = true;

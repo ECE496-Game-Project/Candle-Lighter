@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 870531207974716897}
   - component: {fileID: 1400595810611649871}
   - component: {fileID: 7253678410268324888}
+  - component: {fileID: 8351760033260442005}
   m_Layer: 0
   m_Name: card
   m_TagString: Untagged
@@ -69,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c09f18f86461b4058a87f914e3709375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBox: {fileID: 6546403585163283845, guid: c73577925d6f14fe38dafad0e149dd13, type: 3}
+  textBox: {fileID: 1754115172375393951, guid: 45489893b827b4eb99f59a9fc1af3a6a, type: 3}
   textLines: []
   filename: card-light
   textSpeed: 0.1
@@ -87,6 +88,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _landscapeType: 0
   _instructionManager: {fileID: 0}
+--- !u!65 &8351760033260442005
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60189828942444722}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3848481155143266513
 GameObject:
   m_ObjectHideFlags: 0
