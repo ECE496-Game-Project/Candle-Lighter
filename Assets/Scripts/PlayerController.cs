@@ -30,6 +30,11 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private bool _isMoving;
 
+
+    public bool IsMoving
+    {
+        set { _isMoving = value; }
+    }
     /// <summary>
     /// whether the player is keep pressing the button
     /// </summary>
