@@ -36,10 +36,10 @@ namespace Assets.Scripts.Landscape {
 
             _instructionManager.ExecuteInstruction(_instructionSet, this);
 
-            for (int i = 0; i < this._instructionSet.Count; i++)
-            {
-                Debug.Log($"Instruction {this._instructionSet[i]}");
-            }  
+            //for (int i = 0; i < this._instructionSet.Count; i++)
+            //{
+            //    Debug.Log($"Instruction {this._instructionSet[i]}");
+            //}  
         }
 
         public virtual void MovementExecute(Direction direction) {

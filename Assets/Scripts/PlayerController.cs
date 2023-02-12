@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     private DirectionReference _directionReference;
 
     // Instruction
-    [SerializeField]
     private InstructionManager _instructionManager;
 
     private InputAction _moveAction;
@@ -77,11 +76,12 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("The player object has multiple children, it might not be able to find the character model");
         }
 
-        //_character = this.transform.GetChild(0);
-        //Character c = _character.GetComponent<Character>();
-        //if (c == null) Debug.LogError("Character does not have character script");
+        GameObject instructionManagerObject = GameObject.Find("InstructionManager");
+        if (instructionManagerObject == null) Debug.LogError("Can not find Instruction Manager");
 
-        //c.OnCharacterCollisionEnter.AddListener(OnCharacterCollisionEnter);
+        _instructionManager = instructionManagerObject.GetComponent<InstructionManager>();
+        if (_instructionManager == null) Debug.LogError("Object InstructionManager does not have InstructionManger Script");
+
     }
 
 
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
     private void StartMoving(InputAction.CallbackContext context)
     {
 
-        Debug.Log("startMoving");
+        //Debug.Log("startMoving");
 
         _direction = context.ReadValue<Vector2>();
         _direction = FilterDirection(_direction);
