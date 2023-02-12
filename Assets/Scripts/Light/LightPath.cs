@@ -16,7 +16,7 @@ namespace Assets.Scripts.Light {
         private int _lightMaxDispLevel;
 
         public const float _lightTravelTime = 0.1f; // 1 block appear second
-        public const float _destoryTime = 1.0f;
+        public const float _destoryTime = 0.8f;
         public const int _lowFreqInstruct = 20;
         public const int _lowFreqLightDistance = 5;
         public const int _highFreqLightDistance = 3;
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Light {
                 GameObject lightSectionGO = Instantiate(
                     _lightSectionType,
                     this.transform.position + this.transform.forward * i,
-                    Quaternion.identity,
+                    Quaternion.LookRotation(this.transform.right),
                     this.transform
                 );
             }
@@ -90,7 +90,24 @@ namespace Assets.Scripts.Light {
         }
 
         IEnumerator DestoryLightPath() {
+            foreach (Transform section in this.transform) {
+                section.gameObject.SetActive(true);
+                foreach (Transform smallerSection in section.transform) {
+                    smallerSection.gameObject.SetActive(true);
+                    yield return new WaitForSeconds(0.008f);
+                }
+            }
+            
             yield return new WaitForSeconds(_destoryTime);
+
+            foreach (Transform section in this.transform) {
+                section.gameObject.SetActive(false);
+                foreach (Transform smallerSection in section.transform) {
+                    smallerSection.gameObject.SetActive(false);
+                    yield return new WaitForSeconds(0.008f);
+                }
+            }
+
             foreach (Transform section in this.transform) {
                 GameObject.Destroy(section.gameObject);
             }
