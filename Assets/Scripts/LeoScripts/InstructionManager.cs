@@ -12,7 +12,6 @@ public class InstructionManager : MonoBehaviour
 
     //public InstructionDynamicLib _instructionDynamicLib;
 
-    [SerializeField]
     private InstructionLibraryUI _instructionLibraryUI;
 
     public int InstructionLibSize
@@ -22,7 +21,6 @@ public class InstructionManager : MonoBehaviour
 
     //public InstructionDynamicSet _instructionDynamicSet;
 
-    [SerializeField]
     private InstructionSetUI _instructionSetUI ;
 
     public int InstructionSetSize
@@ -31,16 +29,18 @@ public class InstructionManager : MonoBehaviour
     }
 
 
-    //public int InstructionSetSize
-    //{
-    //    get { return _instructionDynamicLib._instructionLib.Count; }
-    //}
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        //_instructionDynamicLib = new InstructionDynamicLib();
-        //_instructionDynamicSet = new InstructionDynamicSet();
+        GameObject instructionLibraryUIObject = GameObject.Find("InstructionLibrary");
+        if (instructionLibraryUIObject == null) { Debug.LogError("can not find object InstructionLibrary"); }
+        _instructionLibraryUI = instructionLibraryUIObject.GetComponent<InstructionLibraryUI>();
+        if (_instructionLibraryUI == null) { Debug.LogError("Object Instruction Library does not have InstructionLibraryUI Component"); }
+
+        GameObject instructionSetUIObject = GameObject.Find("InstructionSet");
+        if (instructionSetUIObject == null) { Debug.LogError("can not find object InstructionSet"); }
+        _instructionSetUI = instructionSetUIObject.GetComponent<InstructionSetUI>();
+        if (_instructionSetUI == null) { Debug.LogError("Object InstructionSet does not have InstructionSetUI Component"); }
+
     }
 
     public void ExecuteInstruction(List<InstructionType> patch, IInstrcutionExecutable target)

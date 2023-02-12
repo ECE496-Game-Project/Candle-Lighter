@@ -6,12 +6,19 @@ using UnityEngine;
 public class InstructionLibraryUI : MonoBehaviour
 {
 
-    [SerializeField]
     private InstructionSetUI _instructionSetUI;
 
     public int InstructionLibSize
     {
         get { return transform.childCount; }
+    }
+
+    private void Awake()
+    {
+        GameObject instructionSetUIObject = GameObject.Find("InstructionSet");
+        if (instructionSetUIObject == null) { Debug.LogError("can not find object InstructionSet"); }
+        _instructionSetUI = instructionSetUIObject.GetComponent<InstructionSetUI>();
+        if (_instructionSetUI == null) { Debug.LogError("Object InstructionSet does not have InstructionSetUI Component"); }
     }
 
     // Start is called before the first frame update
