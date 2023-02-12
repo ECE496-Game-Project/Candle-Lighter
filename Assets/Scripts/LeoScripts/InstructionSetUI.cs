@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class InstructionSetUI : MonoBehaviour
 {
-    [SerializeField]
+
     private InstructionManager _instructionManager;
     [SerializeField]
     private GameObject _placeHolderPrefab;
@@ -19,6 +19,15 @@ public class InstructionSetUI : MonoBehaviour
         {
             return transform.childCount;
         }
+    }
+
+    private void Awake()
+    {
+        GameObject instructionManagerObject = GameObject.Find("InstructionManager");
+        if (instructionManagerObject == null) Debug.LogError("Can not find Instruction Manager");
+
+        _instructionManager = instructionManagerObject.GetComponent<InstructionManager>();
+        if (_instructionManager == null) Debug.LogError("Object InstructionManager does not have InstructionManger Script");
     }
 
     // Start is called before the first frame update
@@ -38,7 +47,7 @@ public class InstructionSetUI : MonoBehaviour
     void OnChildStartDragging(int index, GameObject child)
     {
 
-        Debug.Log("Hello");
+        //Debug.Log("Hello");
         Draggable childDraggable = child.GetComponent<Draggable>();
         childDraggable.ParentToReturnTo = transform;
 
