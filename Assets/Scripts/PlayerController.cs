@@ -50,19 +50,19 @@ public class PlayerController : MonoBehaviour
     private float _timeToMove;
 
     /// <summary>
+    /// The angle in degree the character will rotate every second 
+    /// </summary>
+    [SerializeField]
+    private float _turnSpeed = 90;
+
+    [SerializeField]
+    private float _tapThreshold = 0.2f;
+
+    /// <summary>
     /// amount of length for each move
     /// </summary>
     [SerializeField]
     private int _step = 1;
-
-    /// <summary>
-    /// Used for animation
-    /// </summary>
-    
-    private float _timer = 0;
-
-    // total amount of time it takes to do the animation
-    private float _duration;
 
     //private Transform _character;
     private void Awake()
@@ -96,21 +96,89 @@ public class PlayerController : MonoBehaviour
         _hasInput = false;   
     }
 
+    IEnumerator Move()
+    {
+        _isMoving = true;
+        float timer, duration;
+        while (_hasInput)
+        {
+
+            // set up position
+            Vector3 startingPosition = transform.position;
+            Vector3 direction = _directionReference.ScreenDirectionToWorldDirecton(_direction);
+            Vector3 destination = startingPosition + _step * direction;
+
+
+            //******************************* Turning Animation************************************************//
+            Quaternion startRotation = transform.rotation;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+            float rotateAngle = Math.Abs(targetRotation.eulerAngles.y - startRotation.eulerAngles.y);
+
+            
+            if (rotateAngle > 180) rotateAngle -= 180;
+
+
+            timer = 0;
+            duration = rotateAngle/ _turnSpeed;
+
+            if (rotateAngle != 0)
+            {
+                while (timer < duration)
+                {
+                    timer += Time.deltaTime;
+                    transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timer / duration);
+                    yield return null;
+                }
+
+                if (timer < _tapThreshold) yield return new WaitForSeconds(_tapThreshold - timer);
+
+                continue;
+            }
+            
+
+            
+            //******************************* Moving Animation************************************************//
+            if (!canMove()) break;
+
+            // set up timer
+            timer = 0;
+            duration = _timeToMove;
+            // move to destination
+            while (timer < duration)
+            {
+
+                timer += Time.deltaTime;
+                transform.position = Vector3.Lerp(startingPosition, destination, timer / duration);
+                yield return null;
+            }
+
+            if (timer < _tapThreshold) yield return new WaitForSeconds(_tapThreshold - timer);
+
+        }
+
+        _isMoving = false;
+
+    }
+
 
     private void StartMoving(InputAction.CallbackContext context)
     {
-
-        //Debug.Log("startMoving");
 
         _direction = context.ReadValue<Vector2>();
         _direction = FilterDirection(_direction);
         _hasInput = true;
         if (_isMoving) { return; }
+            
 
+        StartCoroutine(Move());
 
+    }
 
-        SetUpMovement();
-
+    private void StopMoving(InputAction.CallbackContext context)
+    {
+        _direction = new Vector2(0, 0);
+        _hasInput = false;
     }
 
     private Vector2 FilterDirection(Vector2 direction)
@@ -135,86 +203,88 @@ public class PlayerController : MonoBehaviour
         return direction;
     }
 
-    private void ChangeDirection()
-    {
-        Vector3 targetDirection = _directionReference.ScreenDirectionToWorldDirecton(_direction);
-        Vector3 currentDirection = transform.forward;
 
-        //Debug.Log(targetDirection);
-        //Debug.Log(currentDirection);
-        float angle = 0;
+    /// <summary>
+    /// change the character orientation if difference
+    /// </summary>
+    /// <returns>whether the character actually turn</returns>
+    //private float ChangeDirection()
+    //{
+    //    Vector3 targetDirection = _directionReference.ScreenDirectionToWorldDirecton(_direction);
+    //    Vector3 currentDirection = transform.forward;
 
-        float value = Vector3.Dot(targetDirection, currentDirection);
-        //Debug.Log(value);
-        if (value < -0.1)
-        {
-            if (value < -0.9) { angle = 180; }
-        }
-        else
-        {
-            Vector3 rotation = Vector3.Cross(targetDirection, currentDirection);
-            //Debug.Log(rotation);
-            if (rotation.y > 0.9)
-            {
-                angle = -90;
-            }
-            else if (rotation.y < -0.9)
-            {
-                angle = 90;
-            }
-        }
+    //    //Debug.Log(targetDirection);
+    //    //Debug.Log(currentDirection);
+    //    float angle = 0;
+
+    //    float value = Vector3.Dot(targetDirection, currentDirection);
+    //    //Debug.Log(value);
+    //    if (value < -0.1)
+    //    {
+    //        if (value < -0.9) { angle = 180; }
+    //    }
+    //    else
+    //    {
+    //        Vector3 rotation = Vector3.Cross(targetDirection, currentDirection);
+    //        //Debug.Log(rotation);
+    //        if (rotation.y > 0.9)
+    //        {
+    //            angle = -90;
+    //        }
+    //        else if (rotation.y < -0.9)
+    //        {
+    //            angle = 90;
+    //        }
+    //    }
 
 
-        //Debug.Log(angle); 
-        transform.Rotate(Vector3.up, angle);
-    }
+    //    //Debug.Log(angle); 
+    //    transform.Rotate(transform.up, angle);
+    //    return angle;
+    //}
 
-    private void SetUpMovement()
-    {
-        ChangeDirection();
+    //private void SetUpMovement()
+    //{
+    //    ChangeDirection();
 
-        if (!canMove()) return;
-        _startingPosition = transform.position;
-        _destination = _startingPosition + _step * new Vector3(_direction.x, 0, _direction.y);
-        _timer = 0;
-        _duration = _timeToMove;
-        _isMoving = true;
-    }
+    //    if (!canMove()) return;
+    //    _startingPosition = transform.position;
+    //    _destination = _startingPosition + _step * new Vector3(_direction.x, 0, _direction.y);
+    //    _timer = 0;
+    //    _duration = _timeToMove;
+    //    _isMoving = true;
+    //}
 
     private bool canMove()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(this.transform.position + 0.5f * Vector3.up, this.transform.forward, out hit, _step, ~(1 << 8))){
+        if (Physics.Raycast(this.transform.position + 0.5f * transform.up, this.transform.forward, out hit, _step, ~(1 << 8))){
             return false;
         }
         return true;
     }
 
-    private void SetUpMovement(Vector3 start, Vector3 end)
-    {
-        Vector3 direction3D = (end - start).normalized;
-        Vector2 direction2D = new Vector2(Mathf.Round(direction3D.x), Mathf.Round(direction3D.y));
-        _direction = FilterDirection(direction2D);
+    //private void SetUpMovement(Vector3 start, Vector3 end)
+    //{
+    //    Vector3 direction3D = (end - start).normalized;
+    //    Vector2 direction2D = new Vector2(Mathf.Round(direction3D.x), Mathf.Round(direction3D.y));
+    //    _direction = FilterDirection(direction2D);
 
-        ChangeDirection();
-        _startingPosition = start;
-        _destination = end;
+    //    ChangeDirection();
+    //    _startingPosition = start;
+    //    _destination = end;
 
-        float distance = Vector3.Magnitude(end - start);
+    //    float distance = Vector3.Magnitude(end - start);
 
-        float unit = distance / _step;
+    //    float unit = distance / _step;
 
-        _duration = _timeToMove * unit;
-        _timer = 0;
-        _isMoving = true;
-    }
+    //    _duration = _timeToMove * unit;
+    //    _timer = 0;
+    //    _isMoving = true;
+    //}
 
-    private void StopMoving(InputAction.CallbackContext context)
-    {
-        _direction = new Vector2(0, 0);
-        _hasInput = false;
-    }
+    
 
     private void pressLight(InputAction.CallbackContext context) {
         LightPath lightPath = Instantiate(
@@ -246,28 +316,28 @@ public class PlayerController : MonoBehaviour
     //    //Debug.Log($"Duration: {_duration}");
     //}
 
-    void Update()
-    {
+    //void Update()
+    //{
 
-        if (!_isMoving) { return; }
+    //    if (!_isMoving) { return; }
 
-        _timer += Time.deltaTime;
+    //    _timer += Time.deltaTime;
 
-        //Debug.Log(_timer);
-        transform.position = Vector3.Lerp(_startingPosition, _destination, _timer / _duration);
-        //Debug.Log(transform.position);
+    //    //Debug.Log(_timer);
+    //    transform.position = Vector3.Lerp(_startingPosition, _destination, _timer / _duration);
+    //    //Debug.Log(transform.position);
         
-        if (_timer >= _duration)
-        {
+    //    if (_timer >= _duration)
+    //    {
 
-            if (!_hasInput)
-            {
-                _isMoving = false;
-            }
-            else
-            {
-                SetUpMovement();
-            }  
-        }
-    }
+    //        if (!_hasInput)
+    //        {
+    //            _isMoving = false;
+    //        }
+    //        else
+    //        {
+    //            SetUpMovement();
+    //        }  
+    //    }
+    //}
 }
