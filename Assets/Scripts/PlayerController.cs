@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Assets.Scripts.Light;
 using System;
+using Cinemachine.Utility;
+using UnityEngine.InputSystem.HID;
 
 public class PlayerController : MonoBehaviour
 {
@@ -64,6 +66,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int _step = 1;
 
+    /// <summary>
+    /// The length of each cell
+    /// </summary>
+    [SerializeField]
+    private float _cellSize = 1f;
+
     //private Transform _character;
     private void Awake()
     {
@@ -85,6 +93,8 @@ public class PlayerController : MonoBehaviour
         _instructionManager = instructionManagerObject.GetComponent<InstructionManager>();
         if (_instructionManager == null) Debug.LogError("Object InstructionManager does not have InstructionManger Script");
 
+        gameObject.tag = "Player";
+
     }
 
 
@@ -95,6 +105,18 @@ public class PlayerController : MonoBehaviour
         _isMoving = false;
         _hasInput = false;   
     }
+    
+    /// <summary>
+    /// round the transform position to the grid position
+    /// </summary>
+    void CleanPosition()
+    {
+        Vector3 newLocation = this.transform.position;
+        newLocation.x = Mathf.Round(newLocation.x / _cellSize) * _cellSize;
+        newLocation.z = Mathf.Round(newLocation.z / _cellSize) * _cellSize;
+
+        this.transform.position = newLocation;
+    }
 
     IEnumerator Move()
     {
@@ -102,7 +124,7 @@ public class PlayerController : MonoBehaviour
         float timer, duration;
         while (_hasInput)
         {
-
+            CleanPosition();
             // set up position
             Vector3 startingPosition = transform.position;
             Vector3 direction = _directionReference.ScreenDirectionToWorldDirecton(_direction);
@@ -139,7 +161,7 @@ public class PlayerController : MonoBehaviour
 
             
             //******************************* Moving Animation************************************************//
-            if (!canMove()) break;
+            if (!canMove() || IsEdge()) break;
 
             // set up timer
             timer = 0;
@@ -152,7 +174,6 @@ public class PlayerController : MonoBehaviour
                 transform.position = Vector3.Lerp(startingPosition, destination, timer / duration);
                 yield return null;
             }
-
             if (timer < _tapThreshold) yield return new WaitForSeconds(_tapThreshold - timer);
 
         }
@@ -265,6 +286,17 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
+    private bool IsEdge()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(this.transform.position + 0.5f * transform.up + 1f * transform.forward, - this.transform.up, out hit, 0.6f, ~(1 << 8)))
+        {
+            
+            return false;
+        }
+
+        return true;
+    }
     //private void SetUpMovement(Vector3 start, Vector3 end)
     //{
     //    Vector3 direction3D = (end - start).normalized;
@@ -302,19 +334,19 @@ public class PlayerController : MonoBehaviour
         //}
     }
 
-    //public void OnCharacterCollisionEnter(Collision collision)
-    //{
-    //    Debug.Log("Enter Collision");
+    public void OnCharacterCollisionEnter(Collision collision)
+    {
+        Debug.Log("Enter Collision");
 
-    //    SetUpMovement(transform.position, _startingPosition);
+        //SetUpMovement(transform.position, _startingPosition);
 
-    //    //transform.position = _character.position;
-    //    //_character.localPosition = Vector3.zero;
-    //    //Debug.Log($"starting position: {_startingPosition}");
-    //    //Debug.Log($"Destination: {_destination}");
-    //    //Debug.Log($"timer: {_timer}");
-    //    //Debug.Log($"Duration: {_duration}");
-    //}
+        //transform.position = _character.position;
+        //_character.localPosition = Vector3.zero;
+        //Debug.Log($"starting position: {_startingPosition}");
+        //Debug.Log($"Destination: {_destination}");
+        //Debug.Log($"timer: {_timer}");
+        //Debug.Log($"Duration: {_duration}");
+    }
 
     //void Update()
     //{
@@ -326,7 +358,7 @@ public class PlayerController : MonoBehaviour
     //    //Debug.Log(_timer);
     //    transform.position = Vector3.Lerp(_startingPosition, _destination, _timer / _duration);
     //    //Debug.Log(transform.position);
-        
+
     //    if (_timer >= _duration)
     //    {
 
