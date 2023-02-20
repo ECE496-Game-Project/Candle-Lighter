@@ -716,6 +716,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2227401843876041743, guid: 5d213b79a82b4944388208c1cdaf419e, type: 3}
+      propertyPath: _turnSpeed
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227401843876041743, guid: 5d213b79a82b4944388208c1cdaf419e, type: 3}
+      propertyPath: _tapThreshold
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227401843876041743, guid: 5d213b79a82b4944388208c1cdaf419e, type: 3}
       propertyPath: _instructionManager
       value: 
       objectReference: {fileID: 1560452583}
