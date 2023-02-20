@@ -12,7 +12,7 @@ namespace Assets.Scripts.Landscape {
 
         private Queue<Vector3> _movementBuffer;
 
-        private bool isMoving = false;
+        // private bool isMoving = false;
 
         private IInstrcutionExecutable _IInstructionExecutable;
 

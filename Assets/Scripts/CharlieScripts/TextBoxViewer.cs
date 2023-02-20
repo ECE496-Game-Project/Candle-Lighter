@@ -21,7 +21,6 @@ public class TextBoxViewer : MonoBehaviour
 
     public void OpenTextBox(List<string> lines)
     {
-        Debug.Log("first line: " + lines[0]);
         textBox.SetActive(true);
         Debug.Log($"textBox:{textBox}");
         index = 0;
