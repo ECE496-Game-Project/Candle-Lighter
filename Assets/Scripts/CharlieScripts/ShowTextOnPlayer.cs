@@ -13,7 +13,7 @@ public class ShowTextOnPlayer : MonoBehaviour
     {
         file_root_path = Application.dataPath + "/Text/";
         readTextFile(file_root_path + filename + ".txt");
-        textBox = (transform.Find("TextBox") != null) ? transform.Find("TextBox")?.gameObject : textBox;
+        textBox = (GameObject.Find("TextBox") != null) ? GameObject.Find("TextBox") : textBox;
     }
 
     void readTextFile(string file_path)
@@ -31,7 +31,7 @@ public class ShowTextOnPlayer : MonoBehaviour
         }
         catch
         {
-            Debug.Log("file path: "+file_path+" could not be found, text is missing.");
+            Debug.Log($"file path: {file_path} of object {gameObject} could not be found, text is missing.");
         }    
     }
 
