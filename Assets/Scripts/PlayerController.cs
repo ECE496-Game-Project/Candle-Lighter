@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private DirectionReference _directionReference;
 
+    [SerializeField]
+    private Animator _animator;
+
     // Instruction
     private InstructionManager _instructionManager;
 
@@ -166,6 +169,7 @@ public class PlayerController : MonoBehaviour
             // set up timer
             timer = 0;
             duration = _timeToMove;
+            _animator.SetBool("IsMoving", true);
             // move to destination
             while (timer < duration)
             {
@@ -177,7 +181,7 @@ public class PlayerController : MonoBehaviour
             if (timer < _tapThreshold) yield return new WaitForSeconds(_tapThreshold - timer);
 
         }
-
+        _animator.SetBool("IsMoving", false);
         _isMoving = false;
 
     }

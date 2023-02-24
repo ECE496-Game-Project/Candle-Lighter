@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 2227401843876041742}
   _directionReference: {fileID: 2227401843876041737}
+  _animator: {fileID: 8904162525986361843}
   _timeToMove: 0.5
   _turnSpeed: 360
   _tapThreshold: 0.2
@@ -282,5 +283,10 @@ PrefabInstance:
 --- !u!4 &866603879988377542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6891253844835719609, guid: ead72e90ca2d0414e85f09787f31701e, type: 3}
+  m_PrefabInstance: {fileID: 6027062595399511679}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8904162525986361843 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6325976535734419572, guid: ead72e90ca2d0414e85f09787f31701e, type: 3}
   m_PrefabInstance: {fileID: 6027062595399511679}
   m_PrefabAsset: {fileID: 0}
