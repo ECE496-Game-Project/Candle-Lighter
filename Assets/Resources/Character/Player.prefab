@@ -224,6 +224,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2227401843876041741}
     m_Modifications:
+    - target: {fileID: -6325976535734419572, guid: ead72e90ca2d0414e85f09787f31701e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2d1a23cc525355a4693fa59d6d2c7f64, type: 2}
     - target: {fileID: 6118551795872170755, guid: ead72e90ca2d0414e85f09787f31701e, type: 3}
       propertyPath: m_Name
       value: robot_ani
