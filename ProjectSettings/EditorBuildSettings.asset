@@ -11,14 +11,17 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/level1.unity
-    guid: f0d0a8969b5304b04a6bddb46a733bb4
-  - enabled: 1
-    path: Assets/Scenes/level2.unity
-    guid: bcb859c34386e40ee8a56ffa0c21e7dc
-  - enabled: 1
-    path: Assets/Scenes/level3.unity
-    guid: ebd98453067c547c49ebe45e50c19103
+    path: Assets/Scenes/CharlieScene.unity
+    guid: 47d74027f308847fdb63592fac922290
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: cbd8831a1d297954a9c33019780e42c0, type: 2}

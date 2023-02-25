@@ -5,14 +5,13 @@ using Assets.Scripts.Light;
 namespace Assets.Scripts.Landscape {
     public class ActivateBox : BaseLandscape {
         
-
-        public Animator _Elevator_Animator;
+        public Animator _Animator;
         public override void ActivateExecute() {
-            if (!_Elevator_Animator.GetBool("isActivated"))
-                _Elevator_Animator.SetBool("isActivated", true);
+            if (!_Animator.GetBool("isActivated"))
+                _Animator.SetBool("isActivated", true);
 
             else
-                _Elevator_Animator.SetBool("isActivated", false);
+                _Animator.SetBool("isActivated", false);
             
         }
     }
